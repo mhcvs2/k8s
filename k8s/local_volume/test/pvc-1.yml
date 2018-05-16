@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ssd-pv-claim-1
+  labels:
+    app: ssd-pv-claim-1
+spec:
+  storageClassName: fast-disks
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 9Gi

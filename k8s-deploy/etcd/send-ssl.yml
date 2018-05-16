@@ -1,0 +1,15 @@
+---
+- hosts: k8s-nodes
+  gather_facts: no
+  tasks:
+  - name: Create etcd directory
+    file:
+      path: /etc/etcd
+      state: directory
+  - name: Send cert files to remote
+    copy:
+      src: /etc/etcd/ssl
+      dest: /etc/etcd
+
+
+

@@ -1,0 +1,84 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  creationTimestamp: 2018-05-03T08:02:50Z
+  generation: 2
+  labels:
+    app: rook-agent
+  name: rook-agent
+  namespace: rook-system
+  resourceVersion: "12181"
+  selfLink: /apis/extensions/v1beta1/namespaces/rook-system/daemonsets/rook-agent
+  uid: 5fc19687-4ea8-11e8-b497-90b8d0abcd2b
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: rook-agent
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: rook-agent
+    spec:
+      containers:
+      - args:
+        - agent
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        image: registry.bst-1.cns.bstjpc.com:5000/rook/rook-xz:master
+        imagePullPolicy: IfNotPresent
+        name: rook-agent
+        resources: {}
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /flexmnt
+          name: flexvolume
+        - mountPath: /dev
+          name: dev
+        - mountPath: /sys
+          name: sys
+        - mountPath: /lib/modules
+          name: libmodules
+      dnsPolicy: ClusterFirst
+      hostNetwork: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: rook-agent
+      serviceAccountName: rook-agent
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - hostPath:
+          path: /var/lib/kubelet/volumeplugins
+          type: ""
+        name: flexvolume
+      - hostPath:
+          path: /dev
+          type: ""
+        name: dev
+      - hostPath:
+          path: /sys
+          type: ""
+        name: sys
+      - hostPath:
+          path: /lib/modules
+          type: ""
+        name: libmodules
+  templateGeneration: 2
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate

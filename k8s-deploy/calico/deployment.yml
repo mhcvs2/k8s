@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: calico-kube-controllers
+  namespace: kube-system
+  labels:
+    k8s-app: calico-kube-controllers
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: calico-kube-controllers
+      namespace: kube-system
+      labels:
+        k8s-app: calico-kube-controllers
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+    spec:
+      hostNetwork: true
+      tolerations:
+      - key: node.cloudprovider.kubernetes.io/uninitialized
+        value: "true"
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - key: dedicated
+        value: master
+        effect: NoSchedule
+      serviceAccountName: calico-kube-controllers
+      containers:
+        - name: calico-kube-controllers
+          image: registry.bst-1.cns.bstjpc.com:5000/quay.io/calico/kube-controllers:v2.0.2
+          env:
+            - name: ETCD_ENDPOINTS
+              valueFrom:
+                configMapKeyRef:
+                  name: calico-config
+                  key: etcd_endpoints
+            - name: ENABLED_CONTROLLERS
+              value: policy,profile,workloadendpoint,node
+            - name: ETCD_CA_CERT_FILE
+              value: "/etc/etcd/ssl/etcd-ca.pem"
+            - name: ETCD_CERT_FILE
+              value: "/etc/etcd/ssl/etcd.pem"
+            - name: ETCD_KEY_FILE
+              value: "/etc/etcd/ssl/etcd-key.pem"
+          volumeMounts:
+            - mountPath: /etc/etcd/ssl
+              name: etcd-ca-certs
+              readOnly: true
+      volumes:
+        - name: etcd-ca-certs
+          hostPath:
+            path: /etc/etcd/ssl
+            type: DirectoryOrCreate

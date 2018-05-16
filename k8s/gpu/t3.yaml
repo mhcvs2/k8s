@@ -1,0 +1,44 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: mhc-test1
+  name: mhc-test1
+  namespace: gpu-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: mhc-test1
+  template:
+    metadata:
+      labels:
+        k8s-app: mhc-test1
+    spec:
+      containers:
+      - command:
+        - bash
+        - -c
+        - "while true; do sleep 10; done"
+        image: registry.bst-1.cns.bstjpc.com:5000/dbelt/mysql-ms-mysql-v5.6-v0.2.0:20171107
+        name: mhc-test1
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+            alpha.kubernetes.io/nvidia-gpu: 1
+        ports:
+        - containerPort: 22
+        volumeMounts:
+        - mountPath: /usr/local/nvidia/bin
+          name: bin
+        - mountPath: /usr/lib/nvidia
+          name: lib
+      volumes:
+      - hostPath:
+          path: /usr/lib/nvidia-384/bin
+        name: bin
+      - hostPath:
+          path: /usr/lib/nvidia-384
+        name: lib
+status: {}

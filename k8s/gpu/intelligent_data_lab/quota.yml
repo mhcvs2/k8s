@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: intelligent-data-lab
+  namespace: intelligent-data-lab
+spec:
+  hard:
+    limits.cpu: "100"
+    limits.memory: 1000Gi
+    requests.nvidia.com/gpu-k20m: "4"

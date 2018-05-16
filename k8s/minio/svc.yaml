@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: minio-standalone-svc
+  labels:
+    app: minio-standalone
+spec:
+#  type: ClusterIP
+  selector:
+    app: minio-standalone
+  ports:
+    - name: service
+      port: 9000
+      targetPort: 9000
+#      protocol: TCP

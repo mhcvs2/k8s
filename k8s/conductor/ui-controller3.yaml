@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: conductor-ui3
+  labels:
+    k8s-app: conductor-ui3
+spec:
+  selector:
+    matchLabels:
+      k8s-app: conductor-ui3
+  template:
+    metadata:
+      labels:
+        k8s-app: conductor-ui3
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+    spec:
+      containers:
+      - name: conductor-ui
+        image: mhcvs2/mhc:conductor_ui
+        resources:
+          limits:
+            cpu: 100m
+            memory: 300Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: 5000
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+        env:
+        - name: WF_SERVER
+          value: http://109.105.30.118:8080/api/

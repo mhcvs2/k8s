@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user4
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: User
+    name: ogs-gpu02
+  - kind: User
+    name: 7dd70763-c067-6232-a90b-d6c1a9eef026
+  - kind: User
+    name: acbbf570-c862-6b3d-b94c-da0efe51a93c
+#    name: 7dd70763-c067-6232-a90b-d6c1a9eef026
+#    name: acbbf570-c862-6b3d-b94c-da0efe51a93c

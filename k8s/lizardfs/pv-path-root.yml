@@ -1,0 +1,64 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mfs-root
+  labels:
+    type: mfs-root
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  flexVolume:
+    driver: "srcb/lizardfs"
+    options:
+      host: "mfsmaster"
+      port: "9421"
+      mfssubfolder: "/"
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mfs-root
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 2Gi
+  selector:
+    matchLabels:
+      type: mfs-root
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mfs-root
+  labels:
+    app: mfs-root
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mfs-root
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-m3
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/clusterhq/fio-tool:latest
+        name: fio
+        command:
+        - bash
+        - -c
+        - "tail -f /dev/null"
+        volumeMounts:
+        - name: fio-test-pv
+          mountPath: /data
+      volumes:
+      - name: fio-test-pv
+#        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: mfs-root

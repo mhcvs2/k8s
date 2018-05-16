@@ -1,0 +1,19 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /root/test/k8s/ssl/ca.crt
+    server: https://109.105.4.65:6443
+  name: local
+contexts:
+- context:
+    cluster: local
+    user: controllermanager
+  name: my-context
+current-context: "my-context"
+kind: Config
+preferences: {}
+users:
+- name: controllermanager
+  user:
+    client-certificate: /root/test/k8s/client_ssl/cs_client.crt
+    client-key: /root/test/k8s/client_ssl/cs_client.key

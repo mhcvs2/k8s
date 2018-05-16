@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: spinnaker-common-ingress
+  namespace: spinnaker
+spec:
+  rules:
+  - host: jenkins.spinnaker.gcloud.bst-1.cns.bstjpc.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: spinnaker-jenkins
+          servicePort: 8080
+  - host: spinnaker.gcloud.bst-1.cns.bstjpc.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: spinnaker-spinnaker-deck
+          servicePort: 9000

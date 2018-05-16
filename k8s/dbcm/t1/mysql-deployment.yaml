@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f /root/gitSwarm/dbcm-base-managers/compose/mysql.yml
+    kompose.version: 1.8.0 (0c0c027)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mysql
+  name: mysql
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mysql
+    spec:
+      containers:
+      - env:
+        - name: CLUSTER_ID
+          value: test1
+        - name: CONSUL
+          value: consul
+        - name: DATACENTER
+          value: defalult
+        - name: LOG_LEVEL
+          value: DEBUG
+        - name: SERVICE_NAME
+          value: test1-mysql
+        - name: SNAPSHOT_BACKEND
+          value: manta
+        image: registry.bst-1.cns.bstjpc.com:5000/dbelt/mysql-ms-mysql-v5.6.36-v0.5.0:20180206
+        name: mysql
+        ports:
+        - containerPort: 9104
+        - containerPort: 9100
+        - containerPort: 3306
+        resources:
+          limits:
+            memory: "536870912"
+      restartPolicy: Always
+status: {}

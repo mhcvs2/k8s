@@ -1,0 +1,1 @@
+mfssetquota -d 2097152000 2097152000 200000 200000 /var/lib/kubelet/pods/7f3bd806-5766-11e8-8186-90b8d0abcd2b/volumes/srcb~lizardfs/test-lab-1-user1

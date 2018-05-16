@@ -1,0 +1,151 @@
+kind: DaemonSet
+apiVersion: extensions/v1beta1
+metadata:
+  name: calico-node
+  namespace: kube-system
+  labels:
+    k8s-app: calico-node
+spec:
+  selector:
+    matchLabels:
+      k8s-app: calico-node
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: calico-node
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+    spec:
+      hostNetwork: true
+      tolerations:
+      - key: node.cloudprovider.kubernetes.io/uninitialized
+        value: "true"
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - key: dedicated
+        value: master
+        effect: NoSchedule
+      serviceAccountName: calico-cni-plugin
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: calico-node
+          image: registry.bst-1.cns.bstjpc.com:5000/quay.io/calico/node:v3.0.4
+          env:
+            - name: CLUSTER_TYPE
+              value: "k8s,bgp"
+            - name: ETCD_ENDPOINTS
+              valueFrom:
+                configMapKeyRef:
+                  name: calico-config
+                  key: etcd_endpoints
+            - name: CALICO_NETWORKING_BACKEND
+              valueFrom:
+                configMapKeyRef:
+                  name: calico-config
+                  key: calico_backend
+            - name: CALICO_DISABLE_FILE_LOGGING
+              value: "true"
+            - name: CALICO_K8S_NODE_REF
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: FELIX_DEFAULTENDPOINTTOHOSTACTION
+              value: "ACCEPT"
+            - name: CALICO_IPV4POOL_CIDR
+              value: "10.244.0.0/16"
+            - name: CALICO_IPV4POOL_IPIP
+              value: "Always"
+            - name: IP_AUTODETECTION_METHOD
+              value: "interface=ens.*"
+            - name: FELIX_IPV6SUPPORT
+              value: "false"
+            - name: FELIX_IPINIPMTU
+              value: "1440"
+            - name: FELIX_LOGSEVERITYSCREEN
+              value: "info"
+            - name: IP
+              value: "autodetect"
+            - name: FELIX_HEALTHENABLED
+              value: "true"
+            - name: IP_AUTODETECTION_METHOD
+              value: "interface=eth1"
+            - name: IP6_AUTODETECTION_METHOD
+              value: "interface=eth1"
+            - name: ETCD_CA_CERT_FILE
+              value: "/etc/etcd/ssl/etcd-ca.pem"
+            - name: ETCD_CERT_FILE
+              value: "/etc/etcd/ssl/etcd.pem"
+            - name: ETCD_KEY_FILE
+              value: "/etc/etcd/ssl/etcd-key.pem"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              cpu: 250m
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 9099
+            periodSeconds: 10
+            initialDelaySeconds: 10
+            failureThreshold: 6
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 9099
+            periodSeconds: 10
+          volumeMounts:
+            - mountPath: /lib/modules
+              name: lib-modules
+              readOnly: true
+            - mountPath: /var/run/calico
+              name: var-run-calico
+              readOnly: false
+            - mountPath: /etc/etcd/ssl
+              name: etcd-ca-certs
+              readOnly: true
+        - name: install-cni
+          image: registry.bst-1.cns.bstjpc.com:5000/quay.io/calico/cni:v2.0.3
+          command: ["/install-cni.sh"]
+          env:
+            - name: CNI_CONF_NAME
+              value: "10-calico.conflist"
+            - name: ETCD_ENDPOINTS
+              valueFrom:
+                configMapKeyRef:
+                  name: calico-config
+                  key: etcd_endpoints
+            - name: CNI_NETWORK_CONFIG
+              valueFrom:
+                configMapKeyRef:
+                  name: calico-config
+                  key: cni_network_config
+          volumeMounts:
+            - mountPath: /host/opt/cni/bin
+              name: cni-bin-dir
+            - mountPath: /host/etc/cni/net.d
+              name: cni-net-dir
+      volumes:
+        - name: etcd-ca-certs
+          hostPath:
+            path: /etc/etcd/ssl
+            type: DirectoryOrCreate
+        - name: lib-modules
+          hostPath:
+            path: /lib/modules
+        - name: var-run-calico
+          hostPath:
+            path: /var/run/calico
+        - name: cni-bin-dir
+          hostPath:
+            path: /opt/cni/bin
+        - name: cni-net-dir
+          hostPath:
+            path: /etc/cni/net.d

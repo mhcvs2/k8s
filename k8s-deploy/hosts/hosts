@@ -1,0 +1,14 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+109.105.30.84 registry.bst-1.cns.bstjpc.com
+
+109.105.30.155 k8s-m1
+109.105.30.156 k8s-m2
+109.105.1.209  k8s-m3
+109.105.30.157 k8s-n1
+109.105.1.208 k8s-n2
+109.105.30.161 ceph-t1
+109.105.30.162 ceph-t2
+109.105.30.163 ceph-t3
+
+109.105.1.209 mfsmaster

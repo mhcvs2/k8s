@@ -1,0 +1,14 @@
+---
+- hosts: k8s-nodes
+  gather_facts: no
+
+  tasks:
+  - name: Create plugin directory
+    file:
+      path: /var/lib/kubelet/volumeplugins/srcb~lizardfs
+      state: directory
+  - name: copy executable file to remote
+    copy:
+      src: lizardfs
+      dest: /var/lib/kubelet/volumeplugins/srcb~lizardfs/lizardfs
+      mode: +x

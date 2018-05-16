@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gpu-data-group
+  namespace: gpu-test
+subjects:
+- kind: ServiceAccount
+  name: gpu-data-group
+  namespace: gpu-test
+roleRef:
+  kind: Role
+  name: gpu-operator
+  apiGroup: rbac.authorization.k8s.io

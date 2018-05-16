@@ -1,0 +1,22 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  annotations:
+    scheduler.alpha.kubernetes.io/critical-pod: ""
+  labels:
+    k8s-app: mysql-client
+  name: mysql-client-2
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: k8s-n2
+  containers:
+  - name: mysql
+    image: registry.bst-1.cns.bstjpc.com:5000/mysql:latest
+    command:
+    - bash
+    - -c
+    - "while true; do sleep 100; done"
+    resources:
+      requests:
+        cpu: 100m
+

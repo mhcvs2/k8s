@@ -1,0 +1,104 @@
+---
+- hosts: ceph-test
+  gather_facts: no
+  vars_files:
+    - var.yaml
+  tasks:
+
+  - name: stop firewalld
+    systemd:
+      name: firewalld
+      enabled: false
+      state: stopped
+
+  - name: install git
+    shell: which git &> /dev/null || http_proxy=109.105.4.17:8119 https_proxy=109.105.4.17:8119 yum install git -y
+
+  - name: git clone shell
+    shell: test -d /root/shell || http_proxy=109.105.4.17:8119 https_proxy=109.105.4.17:8119 git clone https://github.com/mhcvs2/shell.git
+    args:
+      chdir: /root
+
+  - name: install docker-ce
+    shell: which docker &> /dev/null || echo y|http_proxy=109.105.4.17:8119 https_proxy=109.105.4.17:8119 ./install.sh
+    args:
+      chdir: /root/shell/docker/centos7
+
+  - name: config docker-ce
+    shell: test -d /etc/docker/certs.d || echo y|./config-registry.sh
+    args:
+      chdir: /root/shell/docker/centos7
+
+  - name: Create etcd directory
+    file:
+      path: /etc/etcd
+      state: directory
+  - name: Send cert files to remote
+    copy:
+      src: "{{ etcd_ssl_dir }}"
+      dest: /etc/etcd
+
+  - name: copy flanneld to remote
+    copy:
+      src: "{{ local_bin }}/flanneld"
+      dest: /usr/local/bin/flanneld
+      mode: +x
+  - name: copy kubelet to remote
+    copy:
+      src: "{{ local_bin }}/kubelet"
+      dest: /usr/local/bin/kubelet
+      mode: +x
+  - name: copy kubectl to remote
+    copy:
+      src: "{{ local_bin }}/kubectl"
+      dest: /usr/local/bin/kubectl
+      mode: +x
+
+  - name: Create flanneld service directory
+    file:
+      path: /etc/systemd/system/flanneld.service.d
+      state: directory
+  - name: Send service file to remote
+    copy:
+      src: "{{ git_docker_dir }}/k8s-deploy/flanneld/flanneld.service"
+      dest: /lib/systemd/system/flanneld.service
+  - name: Send config file to remote
+    copy:
+      src: "{{ git_docker_dir }}/k8s-deploy/flanneld/flanneld.conf"
+      dest: /etc/systemd/system/flanneld.service.d/flanneld.conf
+    notify:
+    - Restart flanneld service
+
+  - name: config docker as a k8s node
+    shell: "[ $(docker images|grep pause-amd64|wc -l) -gt 0 ] || echo y|./config-as-k8s-node.sh"
+    args:
+      chdir: /root/shell/docker/centos7
+
+#  - name: Create kubelet service directory
+#    file:
+#      path: /etc/systemd/system/kubelet.service.d
+#      state: directory
+#  - name: Send service file to remote
+#    copy:
+#      src: "{{ git_docker_dir }}"/k8s-deploy/kubelet/kubelet.service
+#      dest: /lib/systemd/system/kubelet.service
+#  - name: Send config file to remote
+#    copy:
+#      src: "{{ git_docker_dir }}"/k8s-deploy/kubelet/10-kubelet-nodes-only.conf
+#      dest: /etc/systemd/system/kubelet.service.d/10-kubelet.conf
+#    notify:
+#    - Restart kubelet service
+
+  handlers:
+  - name: Restart flanneld service
+    systemd:
+      name: flanneld
+      daemon_reload: yes
+      enabled: yes
+      state: restarted
+  - name: Restart kubelet service
+    systemd:
+      name: kubelet
+      daemon_reload: yes
+      enabled: yes
+      state: restarted

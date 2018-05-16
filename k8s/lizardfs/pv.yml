@@ -1,0 +1,17 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mfs-volume2
+  labels:
+    type: shared
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  flexVolume:
+    driver: "srcb/lizardfs"
+    options:
+      host: "mfsmaster"
+      port: "9421"
+  persistentVolumeReclaimPolicy: Retain

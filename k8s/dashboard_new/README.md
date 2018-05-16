@@ -1,0 +1,1 @@
+https://109.105.4.65:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy

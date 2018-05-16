@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/auth-type: basic
+    ingress.kubernetes.io/auth-secret: system-basic-auth
+  name: system-auth-ingress-default
+spec:
+  rules:
+  - host: helm.gcloud.bst-1.cns.bstjpc.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: monocular-monocular-ui
+          servicePort: 80

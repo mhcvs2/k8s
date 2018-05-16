@@ -1,0 +1,16 @@
+---
+- hosts: etcd
+  gather_facts: no
+  tasks:
+  - name: Create kubernetes manifest directory
+    file:
+      path: /etc/kubernetes/manifests
+      state: directory
+  - name: Send pod file to remote
+    copy:
+      src: etcd.yml
+      dest: /etc/kubernetes/manifests/etcd.yml
+
+
+
+

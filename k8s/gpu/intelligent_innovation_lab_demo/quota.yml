@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: intelligent-innovation-lab
+  namespace: intelligent-innovation-lab
+spec:
+  hard:
+    limits.cpu: "100"
+    limits.memory: 1000Gi
+    requests.nvidia.com/gpu-k20m: "3"
+    requests.nvidia.com/gpu-p40: "8"

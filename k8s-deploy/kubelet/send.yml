@@ -1,0 +1,26 @@
+---
+- hosts: k8s-m
+  gather_facts: no
+  tasks:
+  - name: Create kubelet service directory
+    file:
+      path: /etc/systemd/system/kubelet.service.d
+      state: directory
+  - name: Send service file to remote
+    copy:
+      src: kubelet.service
+      dest: /lib/systemd/system/kubelet.service
+  - name: Send config file to remote
+    copy:
+      src: 10-kubelet.conf
+      dest: /etc/systemd/system/kubelet.service.d/10-kubelet.conf
+    notify:
+    - Restart kubelet service
+
+  handlers:
+  - name: Restart kubelet service
+    systemd:
+      name: kubelet
+      daemon_reload: yes
+      enabled: yes
+      state: restarted

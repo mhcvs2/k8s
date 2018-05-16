@@ -1,0 +1,18 @@
+---
+- hosts: k8s-m2
+  gather_facts: no
+  tasks:
+  - name: Create haproxy config directory
+    file:
+      path: /usr/local/etc/haproxy
+      state: directory
+  - name: Send config file to remote
+    copy:
+      src: haproxy.conf
+      dest: /etc/haproxy/haproxy.cfg
+    notify:
+    - Restart haproxy
+
+  handlers:
+  - name: Restart haproxy
+    shell: docker rm -f $(docker ps|grep haproxy|grep -v POD|awk '{print $1}')

@@ -1,0 +1,26 @@
+---
+- hosts: k8s-nodes
+  gather_facts: no
+  tasks:
+  - name: Create flanneld service directory
+    file:
+      path: /etc/systemd/system/flanneld.service.d
+      state: directory
+  - name: Send service file to remote
+    copy:
+      src: flanneld.service
+      dest: /lib/systemd/system/flanneld.service
+  - name: Send config file to remote
+    copy:
+      src: flanneld.conf
+      dest: /etc/systemd/system/flanneld.service.d/flanneld.conf
+    notify:
+    - Restart flanneld service
+
+  handlers:
+  - name: Restart flanneld service
+    systemd:
+      name: flanneld
+      daemon_reload: yes
+      enabled: yes
+      state: restarted

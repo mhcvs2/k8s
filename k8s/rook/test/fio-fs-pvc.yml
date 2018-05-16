@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rook-test1
+spec:
+  storageClassName: rook-filesystem
+#  path: /test1 # Will use root path, "/", if not provided
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+
+#error: error validating "test/fio-fs-pvc.yml": error validating data: ValidationError(PersistentVolumeClaim.spec): unknown field "path" in io.k8s.api.core.v1.PersistentVolumeClaimSpec; if you choose to ignore these errors, turn validation off with --validate=false

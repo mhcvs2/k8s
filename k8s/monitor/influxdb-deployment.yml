@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: monitoring-influxdb
+  namespace: kube-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        task: monitoring
+        k8s-app: influxdb
+    spec:
+      containers:
+      - name: influxdb
+        image: registry.bst-1.cns.bstjpc.com:5000/k8s.gcr.io/heapster-influxdb-amd64:v1.3.3
+        volumeMounts:
+        - mountPath: /data
+          name: influxdb-storage
+      volumes:
+      - name: influxdb-storage
+        emptyDir: {}
+#      nodeSelector:
+#        type: triton
+#        kubernetes.io/hostname: ogs-gpu02
+#        kubernetes.io/hostname: 7dd70763-c067-6232-a90b-d6c1a9eef026

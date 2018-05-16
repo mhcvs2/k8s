@@ -1,0 +1,37 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: fio-fs-test3
+  labels:
+    app: fio-fs-test3
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: fio-fs-test3
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-n2
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/clusterhq/fio-tool:latest
+        name: fio
+        command:
+        - bash
+        - -c
+        - "tail -f /dev/null"
+        volumeMounts:
+        - name: fio-test-fs
+          mountPath: /data
+      volumes:
+      - name: fio-test-fs
+        flexVolume:
+          driver: rook.io/rook
+          fsType: ceph
+          options:
+            clusterName: rook
+            fsName: srcbfs # name of the filesystem specified in the filesystem CRD.
+            clusterNamespace: rook # namespace where the Rook cluster is deployed
+            # by default the path is /, but you can override and mount a specific path of the filesystem by using the path attribute
+            path: /test2

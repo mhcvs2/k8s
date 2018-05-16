@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gpu-test001
+  namespace: intelligent-innovation-lab
+data:
+  authorized_keys: ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAgjgNGgCWV+BlQM/KLx1y1upSL78kbekyDOdtWPoKy8W+CIWf9lshvDjL9sTpfSvaDQ3ERcb7k8rPhdQLMUGNx4kQ5xZ/arjwaLRcouUSn0uWgLBzjWVGWPgqqnYQC86Qys9xRp552IEizJWhIYpORswZTiQacuj9ryoJ8yvwCBpgDIzm/fBuYaX/WTnqTbUZ9k+52fkAw5DrcRiN7RuqIucUlh6Cn8bMG4xUzSnl94dxOj+618OmtKF0M4gyUbnlK6v5kEZbkY1K/ukBwAQm/nt0auvP1l+Oquee3qB6a7XIq/gWxjaRuv+Ju+cfr1hNGMBqyj3/5S6980vty0OaLw== rsa-key-20180425
+#

@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sshd-test6
+  namespace: intelligent-data-lab
+data:
+  authorized_keys: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC8+u+J+8acn+aL6m+hk3KblJ1oklt2RN923ZmNS3OCc0g+L8ZZ8BHpZHIMj+fgIHXGPCIzgZ4UQC0HN/WR2leFfEOjg1GE8wrdMd5ZsVDDhXZ0RgqFpjEavlXc5VHvEYUNRC/bPeHFOD6a4o3IC7dBQMoGXgoEI1jfv5ZP0Mv/TxFgzFCTXaSaAziBrJErCs21Dd+DONYfJy7BfbxWHrX/VMp7XGM1Srzv5LJDWu/I3salKioQ0a0mXpQ1RCpuXVqrtk0x2d98sKbAT7rIqZ61ySCubaTWeadeHZHc0CqZQlMUylEr3XACl16gsls+65xfBs/Z9kc4XXjD692OkE5N root@mhc\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCp9cW9cAtqKWuswRrgXx3vRLGUVl8By6SjQWhBg/sU9+iZtEWGKUWbSofg98HDEJ6FP2Nb0zY+vKe08ARBseAZqHUcjyFLCTaUPLYLgq7m22NHvUz6x3yD1O84B5w1QAJQOK/aJ7Ih06akukkVCUcTXoXXM6gi6Pucu7rPZ5ArtC1oIYFFpzfSEL7dmKgNHOISkVdp0p3t0ApikM3myskZGgRdRhnSJctqe5E7Iz8jQzaXOKUfcJd3eAJa0+TocLeUD/zBNRxTe8AFasGTSsZY0kbXAxnyJCUMwuldqy33SO8l9uyo0PJX+H1kP2XLRZTpTiqs2/uwvuyYOcIQZjSp root@7dd70763-c067-6232-a90b-d6c1a9eef026
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sshd-test6
+  namespace: intelligent-data-lab
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sshd-test6
+    spec:
+      volumes:
+      - hostPath:
+          path: /usr/lib/nvidia-384/bin
+        name: bin
+      - hostPath:
+          path: /usr/lib/nvidia-384
+        name: lib
+      - name: ssh-key
+        configMap:
+          name: sshd-test6
+      containers:
+      - name: sshd
+        image: registry.bst-1.cns.bstjpc.com:5000/bvlc/caffe-sshd:gpu
+#        image: registry.bst-1.cns.bstjpc.com:5000/ubuntu-sshd:14.04
+#        image: registry.bst-1.cns.bstjpc.com:5000/tensorflow-sshd2:0.11.0rc0-gpu
+        ports:
+        - containerPort: 22
+        - containerPort: 8888
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+            nvidia.com/gpu-p40: 1
+        volumeMounts:
+        - mountPath: /usr/local/nvidia/bin
+          name: bin
+        - mountPath: /usr/local/nvidia/lib
+          name: lib
+        - mountPath: /root/.ssh
+          name: ssh-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sshd-test-service6
+  namespace: intelligent-data-lab
+  labels:
+    app: sshd-test6
+spec:
+  selector:
+    app: sshd-test6
+  ports:
+  - name: ssh
+    port: 22
+    protocol: TCP
+    nodePort: 32231
+  - name: jupyter
+    port: 8888
+    protocol: TCP
+    nodePort: 32232
+  type: NodePort

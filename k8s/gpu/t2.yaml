@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    kube-app: gpu-test2
+  name: gpu-test2
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        kube-app: gpu-test2
+    spec:
+      containers:
+      - command:
+        - bash
+        - -c
+        - "while true; do sleep 10; done"
+        image: registry.bst-1.cns.bstjpc.com:5000/dbelt/mysql-ms-mysql-v5.6-v0.2.0:20171107
+        name: gpu-test2
+        resources:
+          limits:
+            cpu: 4
+            memory: 2Gi
+            alpha.kubernetes.io/nvidia-gpu: 1
+        ports:
+        - containerPort: 22
+          hostPort: 4222
+        volumeMounts:
+        - mountPath: /usr/local/nvidia/bin
+          name: bin
+        - mountPath: /usr/lib/nvidia
+          name: lib
+      volumes:
+      - hostPath:
+          path: /usr/lib/nvidia-384/bin
+        name: bin
+      - hostPath:
+          path: /usr/lib/nvidia-384
+        name: lib
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,1 @@
+kubelet 增加  --allow-privileged=true

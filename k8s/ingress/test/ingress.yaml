@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: conductor-ingress
+spec:
+  rules:
+  - host: triton.conductor.ui
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: conductor-ui
+          servicePort: 5000

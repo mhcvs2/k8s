@@ -1,0 +1,18 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: test-lab-1-user2
+  labels:
+    type: "test-lab-1-user2"
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  flexVolume:
+    driver: "srcb/lizardfs"
+    options:
+      host: "mfsmaster"
+      port: "9421"
+      mfssubfolder: "/test-lab-1/user2"
+  persistentVolumeReclaimPolicy: Delete

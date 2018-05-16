@@ -1,0 +1,16 @@
+# Default values for commit-job.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: registry.bst-1.cns.bstjpc.com:5000/docker-commit-push
+  tag: 18.03.0-ce
+  pullPolicy: IfNotPresent
+
+timeout: 300
+targetHostname: k8s-n1
+podName: "tiller-deploy-8694f8fddc-c2rql"
+imageName: "registry.bst-1.cns.bstjpc.com:5000/test-name"
+imageTag: ""
+author: ""
+message: ""

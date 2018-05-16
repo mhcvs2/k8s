@@ -1,0 +1,11 @@
+[Unit]
+Description=Flanneld overlay address etcd agent
+
+[Service]
+ExecStart=/usr/local/bin/flanneld
+Restart=always
+StartLimitInterval=0
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

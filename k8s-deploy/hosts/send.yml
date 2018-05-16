@@ -1,0 +1,12 @@
+---
+- hosts: k8s-nodes
+  gather_facts: no
+  tasks:
+  - name: Send hosts file to remote
+    copy:
+      src: hosts
+      dest: /etc/hosts
+  - name: Send resolv file to remote
+    copy:
+      src: resolv.conf
+      dest: /etc/resolv.conf

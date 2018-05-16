@@ -1,0 +1,64 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: test-lab-1
+  labels:
+    type: test-lab-1
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  flexVolume:
+    driver: "srcb/lizardfs"
+    options:
+      host: "mfsmaster"
+      port: "9421"
+      mfssubfolder: "/test-lab-1"
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-lab-1
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 2Gi
+  selector:
+    matchLabels:
+      type: test-lab-1
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: test-lab-1
+  labels:
+    app: test-lab-1
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: test-lab-1
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-m3
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/clusterhq/fio-tool:latest
+        name: fio
+        command:
+        - bash
+        - -c
+        - "tail -f /dev/null"
+        volumeMounts:
+        - name: fio-test-pv
+          mountPath: /data
+      volumes:
+      - name: fio-test-pv
+#        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: test-lab-1

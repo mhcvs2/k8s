@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: consul-account
+  name: consul-account
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: consul-account
+        name: consul-account
+    spec:
+      containers:
+      - args:
+        - agent
+        - -server
+        - -client=0.0.0.0
+        - -ui
+        - -bootstrap
+        - -bind=0.0.0.0
+        image: consul:0.8.4
+        name: consul-account
+        ports:
+        - containerPort: 8500
+        - containerPort: 8300
+        - containerPort: 8301
+        - containerPort: 8302
+        - containerPort: 8400
+        resources:
+          limits:
+            memory: "134217728"
+      restartPolicy: Always
+      dnsPolicy: Default  # Don't use cluster DNS.
+      serviceAccountName: test-account
+      automountServiceAccountToken: true
+status: {}

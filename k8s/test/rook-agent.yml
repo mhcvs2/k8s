@@ -1,0 +1,133 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: 2018-04-16T05:09:24Z
+  generateName: rook-agent-
+  labels:
+    app: rook-agent
+    controller-revision-hash: "2608566691"
+    pod-template-generation: "1"
+  name: rook-agent-ctl8f
+  namespace: rook-system
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: DaemonSet
+    name: rook-agent
+    uid: 549ff207-4134-11e8-9dca-90b8d0599f2f
+  resourceVersion: "1223135"
+  selfLink: /api/v1/namespaces/rook-system/pods/rook-agent-ctl8f
+  uid: 54af0b96-4134-11e8-9dca-90b8d0599f2f
+spec:
+  containers:
+  - args:
+    - agent
+    env:
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: spec.nodeName
+    image: registry.bst-1.cns.bstjpc.com:5000/rook/rook:master
+    imagePullPolicy: IfNotPresent
+    name: rook-agent
+    resources: {}
+    securityContext:
+      privileged: true
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /flexmnt
+      name: flexvolume
+    - mountPath: /dev
+      name: dev
+    - mountPath: /sys
+      name: sys
+    - mountPath: /lib/modules
+      name: libmodules
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: rook-agent-token-sm6pn
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  hostNetwork: true
+  nodeName: ogs-gpu02
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: rook-agent
+  serviceAccountName: rook-agent
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/disk-pressure
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/memory-pressure
+    operator: Exists
+  volumes:
+  - hostPath:
+      path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/
+      type: ""
+    name: flexvolume
+  - hostPath:
+      path: /dev
+      type: ""
+    name: dev
+  - hostPath:
+      path: /sys
+      type: ""
+    name: sys
+  - hostPath:
+      path: /lib/modules
+      type: ""
+    name: libmodules
+  - name: rook-agent-token-sm6pn
+    secret:
+      defaultMode: 420
+      secretName: rook-agent-token-sm6pn
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: 2018-04-16T05:12:24Z
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: 2018-04-16T05:12:24Z
+    message: 'containers with unready status: [rook-agent]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: 2018-04-16T05:12:38Z
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - image: registry.bst-1.cns.bstjpc.com:5000/rook/rook:master
+    imageID: ""
+    lastState: {}
+    name: rook-agent
+    ready: false
+    restartCount: 0
+    state:
+      waiting:
+        reason: Blocked
+  hostIP: 109.105.1.209
+  message: pod with UID "54af0b96-4134-11e8-9dca-90b8d0599f2f" specified privileged
+    container, but is disallowed
+  phase: Pending
+  podIP: 109.105.1.209
+  qosClass: BestEffort
+  reason: Forbidden
+  startTime: 2018-04-16T05:12:24Z

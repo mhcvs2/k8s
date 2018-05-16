@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: machine-learning-lab
+  namespace: machine-learning-lab
+spec:
+  hard:
+    limits.cpu: "10"
+    limits.memory: 10Gi
+    requests.nvidia.com/gpu-k20m: "2"
+

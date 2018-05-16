@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: system-common-ingress
+spec:
+  rules:
+  - host: s3.gcloud.bst-1.cns.bstjpc.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: minio
+          servicePort: 9000
+#  - host: helm.gcloud.bst-1.cns.bstjpc.com
+#    http:
+#      paths:
+#      - path: /
+#        backend:
+#          serviceName: monocular-monocular-ui
+#          servicePort: 80
+#      - path: /api
+#        backend:
+#          serviceName: monocular-monocular-api
+#          servicePort: 80

@@ -1,0 +1,14 @@
+---
+- hosts: etcd
+  gather_facts: no
+  tasks:
+  - name: Remove stastic pod
+    shell: rm -rf etcd.yml
+    args:
+      chdir: /etc/kubernetes/manifests
+
+
+
+
+
+

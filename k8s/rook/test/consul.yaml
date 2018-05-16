@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-consul
+  labels:
+    app: wordpress
+spec:
+  ports:
+    - port: 8500
+  selector:
+    app: wordpress
+    tier: consul
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: consul-pv-claim
+  labels:
+    app: wordpress
+spec:
+  storageClassName: rook-block
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: wordpress-consul
+  labels:
+    app: wordpress
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: consul
+    spec:
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/consul:0.8.4
+        name: consul
+        env:
+        - name: consul_ROOT_PASSWORD
+          value: changeme
+        ports:
+        - containerPort: 8500
+          name: consul
+        volumeMounts:
+        - name: consul-persistent-storage
+          mountPath: /var/lib/consul
+      volumes:
+      - name: consul-persistent-storage
+        persistentVolumeClaim:
+          claimName: consul-pv-claim

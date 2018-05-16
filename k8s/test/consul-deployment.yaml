@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f /root/gitSwarm/dbcm-base-managers/compose/consul.yml
+    kompose.version: 1.8.0 (0c0c027)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: consul
+  name: consul
+spec:
+  replicas: 2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: consul
+        name: consul
+    spec:
+      containers:
+      - args:
+        - agent
+        - -server
+        - -client=0.0.0.0
+        - -ui
+        - -bootstrap
+        - -bind=0.0.0.0
+        image: consul:0.8.4
+        name: consul
+        ports:
+        - containerPort: 8500
+        - containerPort: 8300
+        - containerPort: 8301
+        - containerPort: 8302
+        - containerPort: 8400
+        resources:
+          limits:
+            memory: "134217728"
+      restartPolicy: Always
+status: {}

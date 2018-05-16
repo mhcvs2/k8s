@@ -1,0 +1,56 @@
+{
+  "clusters": [
+    {
+      "nodes":[
+        {
+          "devices": [
+            "/dev/vdb1"
+          ],
+          "node": {
+            "hostnames": {
+              "manage": [
+                "acbbf570-c862-6b3d-b94c-da0efe51a93c"
+              ],
+              "storage": [
+                "109.105.30.133"
+              ]
+            },
+            "zone": 1
+          }
+        },
+        {
+          "devices": [
+            "/dev/vdb1"
+          ],
+          "node": {
+            "hostnames": {
+              "manage": [
+                "node1"
+              ],
+              "storage": [
+                "109.105.30.145"
+              ]
+            },
+            "zone": 1
+          }
+        },
+        {
+          "devices": [
+            "/dev/vdb1"
+          ],
+          "node": {
+            "hostnames": {
+              "manage": [
+                "k8s-node-1"
+              ],
+              "storage": [
+                "109.105.30.149"
+              ]
+            },
+            "zone": 1
+          }
+        }
+      ]
+    }
+  ]
+}

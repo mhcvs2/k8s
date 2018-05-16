@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: consul3
+  name: consul
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: consul3
+        name: consul3
+    spec:
+      containers:
+      - args:
+        - agent
+        - -server
+        - -client=0.0.0.0
+        - -ui
+        - -bootstrap
+        - -bind=0.0.0.0
+        image: consul:0.8.4
+        name: consul
+        resources:
+          limits:
+            memory: "134217728"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/myconfig
+      volumes:
+        - name: config-volume
+          configMap:
+            name: consul-config2
+            items:
+            - key: my.cnf
+              path: mysql/my.cnf
+      restartPolicy: Always
+status: {}

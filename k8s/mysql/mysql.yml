@@ -1,0 +1,22 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  annotations:
+    scheduler.alpha.kubernetes.io/critical-pod: ""
+  labels:
+    component: mysql
+  name: mysql
+spec:
+  containers:
+  - name: mysql
+    image: registry.bst-1.cns.bstjpc.com:5000/mysql:latest
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: "123"
+    resources:
+      requests:
+        cpu: 100m
+    ports:
+    - containerPort: 3306
+      protocol: TCP
+      hostPort: 3306

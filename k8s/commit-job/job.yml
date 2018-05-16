@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: commit-push-test
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 300
+  template:
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-n1
+      volumes:
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+      containers:
+      - name: commit-push
+        image: registry.bst-1.cns.bstjpc.com:5000/docker-commit-push:18.03.0-ce
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+        env:
+        - name: POD_NAME
+          value: "tiller-deploy-8694f8fddc-c2rql"
+        - name: IMAGE_NAME
+          value:  "registry.bst-1.cns.bstjpc.com:5000/test-name"
+        - name: IMAGE_TAG
+          value: "test-tag"
+        - name: AUTHOR
+          value: "mhc"
+        - name: MESSAGE
+          value: "message example"
+      restartPolicy: Never

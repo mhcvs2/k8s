@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gpu-data-group
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gpu-cluster-operator
+subjects:
+- kind: ServiceAccount
+  name: gpu-data-group
+  namespace: gpu-test
+

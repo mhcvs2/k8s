@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  labels:
+    io.kompose.service: cadvisor
+  name: cadvisor
+spec:
+  template:
+    metadata:
+      labels:
+        io.kompose.service: cadvisor
+    spec:
+      containers:
+        - image: registry.bst-1.cns.bstjpc.com:5000/google/cadvisor:v0.29.0
+          name: cadvisor
+          ports:
+          - containerPort: 8080
+            hostPort: 4195
+          resources:
+            limits:
+              memory: "536870912"
+          volumeMounts:
+          - mountPath: /rootfs
+            name: root
+            readOnly: true
+          - mountPath: /var/run
+            name: run
+          - mountPath: /sys
+            name: sys
+            readOnly: true
+          - mountPath: /var/lib/docker
+            name: docker
+            readOnly: true
+      volumes:
+      - name: root
+        hostPath:
+          path: /
+      - name: sys
+        hostPath:
+          path: /sys
+      - name: run
+        hostPath:
+          path: /var/run
+      - name: docker
+        hostPath:
+          path: /var/lib/docker

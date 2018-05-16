@@ -1,0 +1,67 @@
+apiVersion: v1
+entries:
+  jenkins:
+  - appVersion: "2.107"
+    created: 2018-05-09T17:15:11.378889203+08:00
+    description: Open source continuous integration server. It supports multiple SCM
+      tools including CVS, Subversion and Git. It can execute Apache Ant and Apache
+      Maven-based projects as well as arbitrary scripts.
+    digest: e6cd9ecd9380429c0ef2dbe568ece6a6ec2939f975374cfacb019b5552d0f42c
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    maintainers:
+    - email: lachlan.evenson@microsoft.com
+      name: lachie83
+    - email: viglesias@google.com
+      name: viglesiasce
+    name: jenkins
+    sources:
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - http://s3.gcloud.bst-1.cns.bstjpc.com/charts/jenkins-0.14.4.tgz
+    version: 0.14.4
+  minio:
+  - apiVersion: v1
+    appVersion: RELEASE.2018-03-16T22-52-12Z
+    created: 2018-05-09T17:15:11.37958762+08:00
+    description: Distributed object storage server built for cloud applications and
+      devops.
+    digest: eaba61e5983928a4b9a448c739fb31f165008285dd1f7c68e50fc98a2ccd6109
+    home: https://minio.io
+    icon: https://www.minio.io/img/logo_160x160.png
+    keywords:
+    - storage
+    - object-storage
+    - S3
+    maintainers:
+    - email: hello@acale.ph
+      name: Acaleph
+    - email: hello@minio.io
+      name: Minio
+    name: minio
+    sources:
+    - https://github.com/minio/minio
+    urls:
+    - http://s3.gcloud.bst-1.cns.bstjpc.com/charts/minio-1.1.1.tgz
+    version: 1.1.1
+  spinnaker:
+  - apiVersion: v1
+    appVersion: 1.6.0
+    created: 2018-05-09T17:15:11.382359286+08:00
+    description: Open source, multi-cloud continuous delivery platform for releasing
+      software changes with high velocity and confidence.
+    digest: 13c33ca6cc95362635a1602e67bf75df094c64d0d8c12df76b5c83943f5c702e
+    home: http://spinnaker.io/
+    icon: https://pbs.twimg.com/profile_images/669205226994319362/O7OjwPrh_400x400.png
+    maintainers:
+    - email: viglesias@google.com
+      name: viglesiasce
+    name: spinnaker
+    sources:
+    - https://github.com/spinnaker
+    - https://github.com/viglesiasce/images
+    urls:
+    - http://s3.gcloud.bst-1.cns.bstjpc.com/charts/spinnaker-0.4.0.tgz
+    version: 0.4.0
+generated: 2018-05-09T17:15:11.377930619+08:00

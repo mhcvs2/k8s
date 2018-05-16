@@ -1,0 +1,32 @@
+---
+- hosts: k8s-nodes
+  gather_facts: no
+
+  tasks:
+
+  - name: copy repo to remote
+    copy:
+      src: "ceph.repo"
+      dest: /etc/yum.repos.d/ceph.repo
+
+  - name: install ceph-fuse
+    shell: which ceph-fuse &> /dev/null || http_proxy=109.105.4.17:8119 https_proxy=109.105.4.17:8119 yum install ceph-fuse -y
+
+  - name: Create plugin directory
+    file:
+      path: /var/lib/kubelet/volumeplugins/srcb~cephfs
+      state: directory
+  - name: copy executable file to remote
+    copy:
+      src: cephfs
+      dest: /var/lib/kubelet/volumeplugins/srcb~cephfs/cephfs
+      mode: +x
+
+  - name: Create ceph directory
+    file:
+      path: /etc/ceph
+      state: directory
+  - name: Send ceph.conf files to remote
+    copy:
+      src: ceph.conf
+      dest: /etc/ceph/ceph.conf

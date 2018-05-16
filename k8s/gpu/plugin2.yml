@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nvidia-device-plugin-p40
+  namespace: kube-system
+  labels:
+    kube-app: nvidia-device-plugin-ds
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: nvidia-device-plugin-ds
+    spec:
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/nvidia/k8s-device-plugin_env:1.9
+        name: nvidia-device-plugin-ctr
+        env:
+        - name: GPU_TYPE
+          value: p40
+        command:
+        - nvidia-device-plugin
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+        volumeMounts:
+          - name: device-plugin
+            mountPath: /var/lib/kubelet/device-plugins
+      volumes:
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+      nodeSelector:
+        gpu_type: p40
+#        kubernetes.io/hostname: ogs-gpu02

@@ -1,0 +1,26 @@
+kind: DaemonSet
+apiVersion: extensions/v1beta1
+metadata:
+  name: mysql-client2-daemonset
+  labels:
+    k8s-app: mysql-client2-daemonset
+spec:
+  template:
+    metadata:
+      name: mysql-client2
+      labels:
+        k8s-app: mysql-client2-daemonset
+    spec:
+        nodeSelector:
+          kubernetes.io/hostname: k8s-n2
+        hostNetwork: true
+        containers:
+        - image: registry.bst-1.cns.bstjpc.com:5000/mysql:latest
+          name: mysql-client2
+          command:
+          - bash
+          - -c
+          - "while true; do sleep 100; done"
+          resources:
+            requests:
+              cpu: 100m

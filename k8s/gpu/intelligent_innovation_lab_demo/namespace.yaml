@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: intelligent-innovation-lab
+  annotations:
+    department: 'SRC-Beijing Intelligent Innovation LAB'
+  labels:
+    srcb-group: intelligent-innovation

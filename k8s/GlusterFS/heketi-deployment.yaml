@@ -1,0 +1,54 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: deploy-heketi
+  labels:
+    glusterfs: heketi-deployment
+    deploy-heketi: heketi-deployment
+  annotations:
+    description: Defines how to deploy Heketi
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: deploy-heketi
+      labels:
+        name: deploy-heketi
+        glusterfs: heketi-pod
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: controller
+      serviceAccountName: heketi-service-account
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/heketi/heketi:dev
+        name: deploy-heketi
+        env:
+        - name: HEKETI_EXECUTOR
+          value: kubernetes
+        - name: HEKETI_FSTAB
+          value: "/var/lib/heketi/fstab"
+        - name: HEKETI_SNAPSHOT_LIMIT
+          value: '14'
+        - name: HEKETI_KUBE_CLUSTER_DAEMONSET
+          value: "y"
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: db
+          mountPath: "/var/lib/heketi"
+        readinessProbe:
+          timeoutSeconds: 3
+          initialDelaySeconds: 30
+          httpGet:
+            path: "/hello"
+            port: 8080
+        livenessProbe:
+          timeoutSeconds: 3
+          initialDelaySeconds: 30
+          httpGet:
+            path: "/hello"
+            port: 8080
+      volumes:
+      - name: db
+        hostPath:
+          path: "/heketi-data"

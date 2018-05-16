@@ -1,0 +1,4 @@
+---
+git_docker_dir: /root/github/docker
+local_bin: /root/packet/kubernetes-1.10.1/bin
+etcd_ssl_dir: /etc/etcd/ssl

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: gpu-test
+  namespace: gpu-test
+spec:
+  hard:
+    limits.cpu: "10"
+    limits.memory: 10Gi
+    requests.nvidia.com/gpu-k20m: "2"
+#    requests.alpha.kubernetes.io/nvidia-gpu: 2
+    #    requests.nvidia.com/gpu: "2"
+#    limits.alpha.kubernetes.io/nvidia-gpu: 2
+#status:
+#  used:
+#    limits.alpha.kubernetes.io/nvidia-gpu: "0"

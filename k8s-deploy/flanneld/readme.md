@@ -1,0 +1,1 @@
+etcdctl set /coreos.com/network/config '{ "Network": "10.96.0.0/16" }'

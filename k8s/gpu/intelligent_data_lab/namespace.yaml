@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: intelligent-data-lab
+  annotations:
+    department: 'SRC-Beijing Intelligent Data LAB'
+  labels:
+    srcb-group: intelligent-data

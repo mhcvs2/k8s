@@ -1,0 +1,18 @@
+---
+- hosts: etcd
+  gather_facts: no
+  tasks:
+  - name: Create etcd config directory
+    file:
+      path: /etc/etcd
+      state: directory
+  - name: Send config file to remote
+    copy:
+      src: etcd.config.yml
+      dest: /etc/etcd/etcd.config.yml
+  - name: Modify config file in remote
+    shell: sed -i "s/\${HOSTNAME}/${HOSTNAME}/g" etcd.config.yml && sed -i "s/\${PUBLIC_IP}/$(hostname -i)/g" etcd.config.yml
+    args:
+      chdir: /etc/etcd
+
+

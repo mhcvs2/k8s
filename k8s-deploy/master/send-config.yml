@@ -1,0 +1,13 @@
+---
+- hosts: k8s-m
+  gather_facts: no
+  tasks:
+  - name: Send audit policy file to remote
+    copy:
+      src: audit-policy.yml
+      dest: /etc/kubernetes/audit-policy.yml
+  - name: Send encryption file to remote
+    copy:
+      src: encryption.yml
+      dest: /etc/kubernetes/encryption.yml
+

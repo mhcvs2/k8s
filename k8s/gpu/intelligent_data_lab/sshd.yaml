@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sshd-test
+  namespace: intelligent-data-lab
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sshd-test
+    spec:
+      volumes:
+      - hostPath:
+          path: /usr/lib/nvidia-384/bin
+        name: bin
+      - hostPath:
+          path: /usr/lib/nvidia-384
+        name: lib
+      containers:
+      - name: sshd
+#        image: registry.bst-1.cns.bstjpc.com:5000/ubuntu-sshd:14.04
+        image: registry.bst-1.cns.bstjpc.com:5000/tensorflow-sshd:0.11.0rc0-gpu
+        ports:
+        - containerPort: 22
+        - containerPort: 8888
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+            nvidia.com/gpu-k20m: 1
+        volumeMounts:
+        - mountPath: /usr/local/nvidia/bin
+          name: bin
+        - mountPath: /usr/local/nvidia/lib
+          name: lib
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sshd-test-service
+  namespace: intelligent-data-lab
+  labels:
+    app: sshd-test
+spec:
+  selector:
+    app: sshd-test
+  ports:
+  - name: ssh
+    port: 22
+    protocol: TCP
+    nodePort: 32223
+  - name: jupyter
+    port: 8888
+    protocol: TCP
+    nodePort: 32224
+  type: NodePort

@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: consul2
+  name: consul
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: consul2
+        name: consul2
+    spec:
+      containers:
+      - args:
+        - agent
+        - -server
+        - -client=0.0.0.0
+        - -ui
+        - -bootstrap
+        - -bind=0.0.0.0
+        image: consul:0.8.4
+        name: consul
+        ports:
+        - containerPort: 8500
+        - containerPort: 8300
+        - containerPort: 8301
+        - containerPort: 8302
+        - containerPort: 8400
+        resources:
+          limits:
+            memory: "134217728"
+        env:
+          - name: DATACENTER
+            valueFrom:
+              configMapKeyRef:
+                name: consul-config
+                key: datacenter
+      restartPolicy: Always
+status: {}

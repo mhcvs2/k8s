@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: mysql
+  name: mysql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: mysql
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-n2
+      containers:
+      - env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "123"
+        image: registry.bst-1.cns.bstjpc.com:5000/mysql:latest
+        name: mysql
+        ports:
+        - containerPort: 3306
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 100m
+      restartPolicy: Always

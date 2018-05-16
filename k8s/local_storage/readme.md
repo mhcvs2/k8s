@@ -1,0 +1,1 @@
+ kubectl label node k8s-n2 local_storage=ssd

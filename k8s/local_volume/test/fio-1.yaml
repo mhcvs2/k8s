@@ -1,0 +1,28 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: fio-test-ssd-2
+  labels:
+    app: fio-test-ssd-2
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: fio-test-ssd-2
+    spec:
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/clusterhq/fio-tool:latest
+        name: fio
+        command:
+        - bash
+        - -c
+        - "while true; do sleep 10; done"
+        volumeMounts:
+        - name: fio-test-pv
+          mountPath: /data
+      volumes:
+      - name: fio-test-pv
+        persistentVolumeClaim:
+          claimName: ssd-pv-claim-1

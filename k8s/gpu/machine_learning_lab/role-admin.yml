@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gpu-operator-admin
+  namespace: machine-learning-lab
+  annotations:
+    department: 'SRC-Beijing Machine Learning LAB'
+  labels:
+    srcb-group: machine-learning
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+
