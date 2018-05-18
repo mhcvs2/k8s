@@ -6,12 +6,9 @@
 # Configure your Docker registries here
 accounts:
 - name: dockerhub
-  address: https://index.docker.io
+  address: https://registry.bst-1.cns.bstjpc.com:5000
   repositories:
-    - library/alpine
     - library/ubuntu
-    - library/centos
-    - library/nginx
 # - name: gcr
 #   address: https://gcr.io
 #   username: _json_key

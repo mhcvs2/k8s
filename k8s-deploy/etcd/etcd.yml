@@ -6,7 +6,7 @@ metadata:
   labels:
     component: etcd
     tier: control-plane
-  name: etcd4
+  name: etcd
   namespace: kube-system
 spec:
   hostNetwork: true
@@ -27,7 +27,7 @@ spec:
       name: etcd-certs
     - mountPath: /etc/etcd/etcd.config.yml
       name: etcd-conf
-    - mountPath: /var/lib/etcd
+    - mountPath: /data/etcd
       name: data
   volumes:
   - hostPath:
@@ -38,6 +38,6 @@ spec:
       path: /etc/etcd/etcd.config.yml
     name: etcd-conf
   - hostPath:
-      path: /var/lib/etcd
+      path: /data/etcd
       type: DirectoryOrCreate
     name: data

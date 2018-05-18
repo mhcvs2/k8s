@@ -5,10 +5,10 @@ metadata:
     scheduler.alpha.kubernetes.io/critical-pod: ""
   labels:
     k8s-app: mysql-client
-  name: mysql-client-4
+  name: mysql-client-3
 spec:
   nodeSelector:
-    kubernetes.io/hostname: k8s-m2
+    kubernetes.io/hostname: k8s-m3
   containers:
   - name: mysql
     image: registry.bst-1.cns.bstjpc.com:5000/mysql:latest

@@ -40,4 +40,4 @@ spec:
         - name: WF_SERVER
           value: http://109.105.30.118:8080/api/
       nodeSelector:
-        kubernetes.io/hostname: 7dd70763-c067-6232-a90b-d6c1a9eef026
+        kubernetes.io/hostname: k8s-node-1

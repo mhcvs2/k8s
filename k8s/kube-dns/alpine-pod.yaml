@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: busybox4
+  name: alpine1
   namespace: default
   annotations:
-    cmd: kubectl exec busybox -- nslookup kubernetes-dashboard.kube-system
+    cmd: kubectl exec alpine1 -- nslookup kubernetes-dashboard.kube-system
 spec:
   nodeSelector:
-    kubernetes.io/hostname: k8s-m2
+    kubernetes.io/hostname: k8s-m3
   containers:
   - name: busybox
-    image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/busybox
+    image: registry.bst-1.cns.bstjpc.com:5000/alpine:3.6
     command:
     - sh
     - -c

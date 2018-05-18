@@ -1,5 +1,5 @@
 ---
-- hosts: ceph-test
+- hosts: k8s-new-m
   gather_facts: no
   vars_files:
     - var.yaml
@@ -23,6 +23,8 @@
     shell: which docker &> /dev/null || echo y|http_proxy=109.105.4.17:8119 https_proxy=109.105.4.17:8119 ./install.sh
     args:
       chdir: /root/shell/docker/centos7
+    notify:
+    - Start docker service
 
   - name: config docker-ce
     shell: test -d /etc/docker/certs.d || echo y|./config-registry.sh
@@ -102,3 +104,9 @@
       daemon_reload: yes
       enabled: yes
       state: restarted
+  - name: Start docker service
+    systemd:
+      name: docker
+      daemon_reload: yes
+      enabled: yes
+      state: started
