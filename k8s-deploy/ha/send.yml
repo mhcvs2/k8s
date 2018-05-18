@@ -4,7 +4,7 @@
   tasks:
   - name: Create haproxy config directory
     file:
-      path: /usr/local/etc/haproxy
+      path: /etc/haproxy
       state: directory
   - name: Send config file to remote
     copy:
