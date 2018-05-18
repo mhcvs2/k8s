@@ -21,10 +21,10 @@ spec:
       - --bind-address=0.0.0.0
       - --secure-port=5443
       - --insecure-port=0
-      - --advertise-address=109.105.1.209
+      - --advertise-address=109.105.1.254
       - --service-cluster-ip-range=10.96.0.0/12
       - --service-node-port-range=15000-32767
-      - --etcd-servers=https://109.105.30.155:2379,https://109.105.30.156:2379,https://109.105.1.209:2379,https://109.105.30.157:2379,https://109.105.1.208:2379
+      - --etcd-servers=https://109.105.1.253:2379,https://109.105.1.254:2379,https://109.105.1.209:2379,https://109.105.1.208:2379
       - --etcd-cafile=/etc/etcd/ssl/etcd-ca.pem
       - --etcd-certfile=/etc/etcd/ssl/etcd.pem
       - --etcd-keyfile=/etc/etcd/ssl/etcd-key.pem
