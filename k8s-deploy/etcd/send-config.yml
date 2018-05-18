@@ -1,5 +1,5 @@
 ---
-- hosts: k8s-new-m
+- hosts: all-etcd
   gather_facts: no
   tasks:
   - name: Create etcd config directory
