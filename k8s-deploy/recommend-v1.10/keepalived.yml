@@ -12,12 +12,12 @@ spec:
   hostNetwork: true
   containers:
   - name: keepalived
-    image: kairen/keepalived:1.2.24
+    image: registry.bst-1.cns.bstjpc.com:5000/kairen/keepalived:1.2.24
     env:
     - name: VIRTUAL_IP
-      value: 192.16.35.10
+      value: 109.105.1.245
     - name: INTERFACE
-      value: eth1
+      value: em1
     - name: VIRTUAL_MASK
       value: "24"
     - name: CHECK_IP
