@@ -38,6 +38,6 @@ spec:
       path: /etc/etcd/etcd.config.yml
     name: etcd-conf
   - hostPath:
-      path: /data/etcd
+      path: /var/lib/etcd
       type: DirectoryOrCreate
     name: data
