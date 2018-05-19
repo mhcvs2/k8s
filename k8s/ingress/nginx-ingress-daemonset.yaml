@@ -11,6 +11,8 @@ spec:
       labels:
         name: nginx-ingress-lb
     spec:
+      nodeSelector:
+        type: physics
       terminationGracePeriodSeconds: 60
       containers:
       - image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/nginx-ingress-controller:0.9.0-beta.2

@@ -1,0 +1,96 @@
+{
+  "kind": "Pod",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "nginx-ingress-lb-crfkj",
+    "generateName": "nginx-ingress-lb-",
+    "labels": {
+      "name": "nginx-ingress-lb",
+    }
+  },
+  "spec": {
+    "volumes": [
+      {
+        "name": "default-token-d9698",
+        "secret": {
+          "secretName": "default-token-d9698",
+          "defaultMode": 420
+        }
+      }
+    ],
+    "containers": [
+      {
+        "name": "nginx-ingress-lb",
+        "image": "registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/nginx-ingress-controller:0.9.0-beta.2",
+        "args": [
+          "/nginx-ingress-controller",
+          "--default-backend-service=$(POD_NAMESPACE)/default-http-backend"
+        ],
+        "ports": [
+          {
+            "containerPort": 80,
+            "protocol": "TCP"
+          },
+          {
+            "containerPort": 443,
+            "protocol": "TCP"
+          }
+        ],
+        "env": [
+          {
+            "name": "POD_NAME",
+            "valueFrom": {
+              "fieldRef": {
+                "apiVersion": "v1",
+                "fieldPath": "metadata.name"
+              }
+            }
+          },
+          {
+            "name": "POD_NAMESPACE",
+            "value": "default"
+          }
+        ],
+        "volumeMounts": [
+          {
+            "name": "default-token-d9698",
+            "readOnly": true,
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+          }
+        ],
+        "livenessProbe": {
+          "httpGet": {
+            "path": "/healthz",
+            "port": 10254,
+            "scheme": "HTTP"
+          },
+          "initialDelaySeconds": 10,
+          "timeoutSeconds": 1,
+          "periodSeconds": 10,
+          "successThreshold": 1,
+          "failureThreshold": 3
+        },
+        "readinessProbe": {
+          "httpGet": {
+            "path": "/healthz",
+            "port": 10254,
+            "scheme": "HTTP"
+          },
+          "timeoutSeconds": 1,
+          "periodSeconds": 10,
+          "successThreshold": 1,
+          "failureThreshold": 3
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "imagePullPolicy": "IfNotPresent"
+      }
+    ],
+    "restartPolicy": "Always",
+    "terminationGracePeriodSeconds": 60,
+    "dnsPolicy": "ClusterFirst",
+    "serviceAccountName": "default",
+    "serviceAccount": "default",
+    "schedulerName": "default-scheduler"
+  }
+}

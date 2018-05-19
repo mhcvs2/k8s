@@ -12,7 +12,7 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-controller-manager
-    image: gcr.io/google_containers/kube-controller-manager-amd64:v1.10.0
+    image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/kube-controller-manager-amd64:v1.10.0
     command:
       - kube-controller-manager
       - --v=0
