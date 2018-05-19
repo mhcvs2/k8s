@@ -293,7 +293,7 @@ defaultBackend:
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
   nodeSelector:
-    type: triton
+    role: master
 
   ## Annotations to be added to default backend pods
   ##
