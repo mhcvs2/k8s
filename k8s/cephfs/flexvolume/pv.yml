@@ -23,8 +23,6 @@ spec:
       authid: 'admin'
       keyring: 'AQB3bvpapKs+LRAAs1PH+Mo4loOcAvTDfHg3vg=='
   # Comment out the line above an      share: '/'
-      authid: 'admin'
-      keyring: 'AQB3bvpapKs+LRAAs1PH+Mo4loOcAvTDfHg3vg=='d uncomment the following three to user the keyring
   # from a secret on the namespace
   # secretRef:
   #   name: keyring

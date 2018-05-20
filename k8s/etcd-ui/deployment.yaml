@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: etcd-ui
+  name: etcd-ui
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: etcd-ui
+    spec:
+      nodeSelector:
+        role: master
+      volumes:
+      - hostPath:
+          path: /etc/etcd/ssl
+          type: DirectoryOrCreate
+        name: etcd-ca-certs
+      containers:
+      - env:
+        - name: ETCD_HOST
+          value: "109.105.1.253"
+        - name: ETCD_PORT
+          value: "2379"
+        - name: ETCDCTL_CA_FILE
+          value: /etc/etcd/ssl/etcd-ca.pem
+        - name: ETCDCTL_KEY_FILE
+          value: /etc/etcd/ssl/etcd-key.pem
+        - name: ETCDCTL_CERT_FILE
+          value: /etc/etcd/ssl/etcd.pem
+        image: registry.bst-1.cns.bstjpc.com:5000/etcd-brower:latest
+        name: etcd-brower
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - mountPath: /etc/etcd/ssl
+          name: etcd-ca-certs
+          readOnly: true
+      restartPolicy: Always
+
