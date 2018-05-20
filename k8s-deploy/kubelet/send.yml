@@ -1,5 +1,5 @@
 ---
-- hosts: k8s-new-m
+- hosts: k8s-m2
   gather_facts: no
   tasks:
   - name: Create kubelet service directory
