@@ -1,0 +1,11 @@
+---
+- hosts: k8s-nodes
+  gather_facts: no
+  tasks:
+  - name: send
+    copy:
+      src: update.sh
+      dest: /tmp/update.sh
+      mode: +x
+  - name: run
+    shell: "/tmp/update.sh"
