@@ -9,7 +9,7 @@ cd ${des_dir}
 
 #------------------------------------------------------
 echo "generate for api server..."
-hostnames="10.96.0.1,109.105.30.155,109.105.30.156,109.105.1.209,127.0.0.1,kubernetes.default,kubernetes.default.svc,gcloud.bst-1.cns.bstjpc.com"
+hostnames="10.96.0.1,109.105.30.155,109.105.30.156,109.105.1.209,127.0.0.1,kubernetes.default,kubernetes.default.svc,gcloud.bst-1.cns.bstjpc.com,gcloud.srcb.com"
 cfssl gencert -initca ca-csr.json | cfssljson -bare ca
 
 cfssl gencert \

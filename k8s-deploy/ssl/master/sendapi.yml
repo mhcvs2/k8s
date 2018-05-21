@@ -1,0 +1,12 @@
+---
+- hosts: k8s-nodes
+  gather_facts: no
+  tasks:
+  - name: Send1
+    copy:
+      src: /etc/kubernetes/pki/apiserver.pem
+      dest: /etc/kubernetes/pki/apiserver.pem
+  - name: Send2
+    copy:
+      src: /etc/kubernetes/pki/apiserver-key.pem
+      dest: /etc/kubernetes/pki/apiserver-key.pem
