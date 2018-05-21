@@ -1,20 +1,18 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-#  annotations:
-#    ingress.kubernetes.io/ssl-passthrough: "true"
-#    nginx.org/ssl-backends: "kubernetes-dashboard"
-#    kubernetes.io/ingress.allow-http: "false"
-#    nginx.ingress.kubernetes.io/secure-backends: "true"
-  name: dashboard-ingress
+  name: system-ingress
   namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
 spec:
-#  tls:
-#  - hosts:
-#    - gcloud.bst-1.cns.bstjpc.com
-#    secretName: kubernetes-dashboard-certs
+  tls:
+  - secretName: dashboard-ingress-secret
+    hosts:
+    - dashboard.gcloud.srcb.com
   rules:
-  - host: ui.gcloud.bst-1.cns.bstjpc.com
+  - host: dashboard.gcloud.srcb.com
     http:
       paths:
       - path: /
