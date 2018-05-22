@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: conductor-ui
-        image: mhcvs2/mhc:conductor_ui
+        image: registry.bst-1.cns.bstjpc.com:5000/mhcvs2/mhc:conductor_ui
         resources:
           limits:
             cpu: 100m
@@ -28,7 +28,7 @@ spec:
         ports:
         - containerPort: 5000
           protocol: TCP
-#          hostPort: 5000
+          hostPort: 5000
         livenessProbe:
           httpGet:
             scheme: HTTP
