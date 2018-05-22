@@ -29,17 +29,18 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-#     kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
 #     kubernetes.io/tls-acme: "true"
 #     ingress.kubernetes.io/proxy-body-size: "0"
 #     ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS
 #     ingress.kubernetes.io/cors-allow-origin: http://registry.local:80/
 #     ingress.kubernetes.io/enable-cors: "true"
-#  tls:
-##     Secrets must be manually created in the namespace.
-#     - secretName: chart-example-tls
-#       hosts:
-#         - registry.gcloud.bst-1.cns.bstjpc.com
+  tls:
+#     Secrets must be manually created in the namespace.
+     - secretName: docker-registry-tls
+       hosts:
+         - registry.gcloud.srcb.com
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -71,7 +72,7 @@ storage: filesystem
 
 # Set this to name of secret for tls certs
 #tlsSecretName: docker-registry-tls
-tlsSecretName: ""
+tlsSecretName: "docker-registry-tls"
 secrets:
   haSharedSecret: "XVqEZ76tEAPqaQJU"
 #  htpasswd: "admin:$2y$05$QbgejipIV8iRtyEvd9EbteB3TnpFVav4AV7gvChCjHpfkn7m7JqrC"

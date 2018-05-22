@@ -63,3 +63,6 @@ To generate htpasswd file, run this docker command:
 
 openssl req -newkey rsa:4096 -nodes -sha256 -keyout tls.key -x509 -days 365 -out tls.crt
 kubectl create secret generic docker-registry-tls -n registry --from-file=./tls.crt --from-file=./tls.key
+kubectl create secret tls docker-registry-tls --key ingress-key.pem --cert ingress.pem -n registry
+
+把 cert
