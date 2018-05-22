@@ -24,8 +24,7 @@ ingress:
   enabled: true
   # Used to create an Ingress record.
   hosts:
-    - ui.k8stest.bst-1.cns.bstjpc.com
-#    - docker.registry.gcloud.bst-1.cns.bstjpc.com
+    - registry.gcloud.srcb.com
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
