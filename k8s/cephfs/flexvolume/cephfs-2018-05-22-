@@ -48,8 +48,6 @@ domount() {
     debug "domount"
     debug "$1"
     debug "$2"
-	MDS=$(echo $2 | jq -r '.mds')
-	MONITOR=$(echo $2 | jq -r '.monitors')
 	SHARE=$(echo $2 | jq -r '.share')
 	AUTH_ID=$(echo $2 | jq -r '.authid')
 	KEYRING=$(echo $2 | jq -r '.["kubernetes.io/secret/keyring"]')
@@ -77,37 +75,21 @@ domount() {
 	# Write keyring to file
 	KEYRING_PATH="/var/run/cephfs/${AUTH_ID}/ceph.client.${AUTH_ID}.keyring"
 	mkdir -p "/var/run/cephfs/${AUTH_ID}"
-	echo $KEYRING  > $KEYRING_PATH
+	echo $KEYRING | base64 -d > $KEYRING_PATH
 	umask $current_umask
 
 	# Mount the share with ceph-fuse
 	mkdir -p ${MNTPATH} &> /dev/null
 	# Expect the conf file to be written in /etc/ceph/ceph.conf	which is where the
 	# ceph puppet module installs the file.
-	mkdir /id_gpu_lyf &>/dev/null
-	mount -t ceph  $MONITOR:/ /id_gpu_lyf -o mds_namespace=${MDS},name=${AUTH_ID},secretfile=${KEYRING_PATH}
-        if [ $? -ne 0 ]; then
-                err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:${SHARE} at ${MNTPATH}: ${output}\"}"
-                exit 1
-        else
-
-		mkdir -p /id_gpu_lyf$SHARE
-	        if [ $? -ne 0 ]; then
-	                err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:${SHARE} at ${MNTPATH}: ${output}\"}"
-	                exit 1
-	        fi
-		umount /id_gpu_lyf && rm -rf /id_gpu_lyf
-        	if [ $? -ne 0 ]; then
-               		 err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:${SHARE} at ${MNTPATH}: ${output}\"}"
-                	 exit 1
-        	fi
-	fi
 	debug "mount command:"
-	debug "mount -t ceph  $MONITOR:$SHARE ${MNTPATH} -o mds_namespace=${MDS},name=${AUTH_ID},secretfile=${KEYRING_PATH}" 
-	output=$(mount -t ceph  $MONITOR:$SHARE ${MNTPATH} -o mds_namespace=${MDS},name=${AUTH_ID},secretfile=${KEYRING_PATH} 2>&1)
+	debug "ceph-fuse ${MNTPATH} --id=${AUTH_ID} --conf=/etc/ceph/ceph.conf --keyring=${KEYRING_PATH} \
+	--client-mountpoint=${SHARE}"
+	output=$(ceph-fuse ${MNTPATH} --id=${AUTH_ID} --conf=/etc/ceph/ceph.conf --keyring=${KEYRING_PATH} \
+	--client-mountpoint=${SHARE} 2>&1)
 
 	if [ $? -ne 0 ]; then
-		err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:${SHARE} at ${MNTPATH}: ${output}\"}"
+		err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share ${SHARE} at ${MNTPATH}: ${output}\"}"
 		exit 1
 	fi
 	log "{\"status\": \"Success\"}"
@@ -123,7 +105,7 @@ unmount() {
 		exit 0
 	fi
 
-	sync && umount ${MNTPATH} &> /dev/null
+	umount ${MNTPATH} &> /dev/null
 	if [ $? -ne 0 ]; then
 		err "{ \"status\": \"Failed\", \"message\": \"Failed to unmount volume at ${MNTPATH}\"}"
 		exit 1

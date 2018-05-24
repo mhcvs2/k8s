@@ -1,16 +1,16 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: cephfs-test3
+  name: cephfs-test6
   labels:
-    app: cephfs-test3
+    app: cephfs-test6
 spec:
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: cephfs-test3
+        app: cephfs-test6
     spec:
       nodeSelector:
         kubernetes.io/hostname: k8s-n1
@@ -28,5 +28,5 @@ spec:
       - name: fio-test-pv
 #        emptyDir: {}
         persistentVolumeClaim:
-          claimName: ceph-mds-pvc
+          claimName: ceph-flv4-pvc
 

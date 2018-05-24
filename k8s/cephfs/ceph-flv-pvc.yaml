@@ -1,11 +1,11 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: ceph-mds2-pvc
+  name: ceph-flv4-pvc
 spec:
   accessModes:
     - ReadWriteMany
-  volumeName: ceph-mds2-pv
+  volumeName: ceph-flv4-pv
   resources:
     requests:
       storage: 1Gi

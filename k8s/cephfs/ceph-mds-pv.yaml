@@ -1,19 +1,19 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: ceph-mds2-pv
+  name: ceph-mds3-pv
 spec:
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
-  testfs:
+  cephfs:
     monitors:
       - 109.105.30.166:6789
       - 109.105.30.167:6789
       - 109.105.30.168:6789
-    path: /hello
     user: admin
+    mds: testfs
     readOnly: false
     secretRef:
         name: ceph-secret

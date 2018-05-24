@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ceph-flv4-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  flexVolume:
+    driver: srcb/cephfs
+    options:
+      monitors: 109.105.30.166:6789,109.105.167:6789,109.105.30.168:6789
+      share: '/liubisheng'
+      authid: 'admin'
+      mds: 'testfs'
+      keyring: 'AQDfQf1aV/MGAhAAi4Na5DS1sWHs0kT6bJptjw=='
+    
+  persistentVolumeReclaimPolicy: Retain
