@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "commit-job.fullname" . }}
+  labels:
+    app: {{ template "commit-job.name" . }}
+    chart: {{ template "commit-job.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: {{ .Values.timeout }}
+  template:
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: {{ .Values.targetHostname }}
+      volumes:
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+      containers:
+      - name: commit-push
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+        env:
+        - name: POD_NAME
+          value: {{ .Values.podName }}
+        - name: IMAGE_NAME
+          value:  {{ .Values.imageName }}
+{{- if .Values.imageTag }}
+        - name: IMAGE_TAG
+          value: {{ .Values.imageTag }}
+{{- end }}
+{{- if .Values.author }}
+        - name: AUTHOR
+          value: {{ .Values.author }}
+{{- end }}
+{{- if .Values.message }}
+        - name: MESSAGE
+          value: {{ .Values.message }}
+{{- end }}
+      restartPolicy: Never
