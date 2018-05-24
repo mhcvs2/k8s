@@ -90,7 +90,7 @@ nodeSelector:
 tolerations: []
 affinity:
   nodeAffinity:
-    preferredDuringSchedulingIgnoreDuringExcution:
+    preferredDuringSchedulingIgnoredDuringExecution:
     - weight: 5
       preference:
         matchExpressions:

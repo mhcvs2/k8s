@@ -11,6 +11,23 @@ spec:
         task: monitoring
         k8s-app: influxdb
     spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 5
+            preference:
+              matchExpressions:
+              - key: role
+                operator: In
+                values:
+                - master
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: type
+                operator: In
+                values:
+                - physics
       containers:
       - name: influxdb
         image: registry.bst-1.cns.bstjpc.com:5000/k8s.gcr.io/heapster-influxdb-amd64:v1.3.3
@@ -20,11 +37,10 @@ spec:
       volumes:
       - name: influxdb-storage-pv
         flexVolume:
-          driver: rook.io/rook
-          fsType: ceph
+          driver: srcb/cephfs
           options:
-            clusterName: rook
-            fsName: srcbfs # name of the filesystem specified in the filesystem CRD.
-            clusterNamespace: rook # namespace where the Rook cluster is deployed
-            # by default the path is /, but you can override and mount a specific path of the filesystem by using the path attribute
-            path: /kube-system/monitoring-influxdb
+            monitors: 109.105.1.208:6789,109.105.1.209:6789,109.105.1.253:6789,109.105.1.254:6789,109.105.30.157:6789
+            share: '/system_common/influxdb'
+            authid: 'admin'
+            mds: 'Data_Intelligence_Labfs'
+            keyring: 'AQDeUgJbJgwNMhAAnzeW5LwQSwqMyWs7Zvl5cQ=='

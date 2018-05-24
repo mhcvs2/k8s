@@ -76,7 +76,7 @@ nodeSelector: {}
 
 affinity:
   nodeAffinity:
-    preferredDuringSchedulingIgnoreDuringExcution:
+    preferredDuringSchedulingIgnoredDuringExecution:
     - weight: 5
       preference:
         matchExpressions:
