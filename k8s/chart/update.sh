@@ -30,9 +30,10 @@ upload_tgz(){
   remote_files=$(mc ls minio/charts | awk '{print $5}'|grep '.tgz')
   local_files=$(ls . |grep '.tgz')
   for lf in ${local_files[@]}; do
-    if [ $(in_array ${lf} ${remote_files[@]}) -eq 0 ]; then
-      upload_file ./${lf}
-    fi
+#    if [ $(in_array ${lf} ${remote_files[@]}) -eq 0 ]; then
+#      upload_file ./${lf}
+#    fi
+   upload_file ./${lf}
   done
 }
 
