@@ -1,0 +1,27 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: data-intelligence-labfs-root
+  labels:
+    app: data-intelligence-labfs-root
+spec:
+  template:
+    metadata:
+      labels:
+        app: data-intelligence-labfs-root
+    spec:
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/clusterhq/fio-tool:latest
+        name: fio
+        command:
+        - bash
+        - -c
+        - "tail -f /dev/null"
+        volumeMounts:
+        - name: fio-test-pv
+          mountPath: /data
+      volumes:
+      - name: fio-test-pv
+        persistentVolumeClaim:
+          claimName: data-intelligence-labfs-root
+

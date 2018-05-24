@@ -107,6 +107,9 @@ spec:
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "minio.fullname" .) }}
+        {{- else if .Values.flexVolume.enabled }}
+          flexVolume:
+{{ toYaml .Values.flexVolume.flexVolume | indent 12 }}
         {{- else }}
           emptyDir: {}
         {{- end }}

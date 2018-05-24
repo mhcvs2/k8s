@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nvidia-device-plugin-k20m
+  namespace: kube-system
+  labels:
+    kube-app: nvidia-device-plugin-k20m
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: nvidia-device-plugin-k20m
+    spec:
+      containers:
+      - name: nvidia-device-plugin-k20m
+        image: registry.bst-1.cns.bstjpc.com:5000/nvidia/k8s-device-plugin-env-debug:1.10
+        imagePullPolicy: Always
+        env:
+        - name: GPU_TYPE
+          value: k20m
+        - name: DEBUG
+          value: "true"
+        command:
+        - nvidia-device-plugin
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+        volumeMounts:
+          - name: device-plugin
+            mountPath: /var/lib/kubelet/device-plugins
+      volumes:
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+      nodeSelector:
+#        gpu_type: k20m
+        kubernetes.io/hostname: k8s-n2

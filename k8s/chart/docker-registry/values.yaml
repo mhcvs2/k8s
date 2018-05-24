@@ -59,16 +59,38 @@ persistence:
   # storageClass: '-'
 
 flexVolume:
-  enabled: false
+  enabled: true
   flexVolume:
-    driver: "srcb/lizardfs"
+    driver: srcb/cephfs
     options:
-      host: "mfsmaster"
-      port: "9421"
-      mfssubfolder: "/registry/docker-registry"
+      monitors: 109.105.1.208:6789,109.105.1.209:6789,109.105.1.253:6789,109.105.1.254:6789,109.105.30.157:6789
+      share: '/system_common/docker_registry'
+      authid: 'admin'
+      mds: 'Data_Intelligence_Labfs'
+      keyring: 'AQDeUgJbJgwNMhAAnzeW5LwQSwqMyWs7Zvl5cQ=='
 
 # set the type of filesystem to use: filesystem, s3
 storage: filesystem
+
+nodeSelector: {}
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoreDuringExcution:
+    - weight: 5
+      preference:
+        matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - master
+    - weight: 1
+      preference:
+        matchExpressions:
+        - key: type
+          operator: In
+          values:
+          - physics
 
 # Set this to name of secret for tls certs
 #tlsSecretName: docker-registry-tls

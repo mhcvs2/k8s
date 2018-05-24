@@ -2,16 +2,24 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    ingress.kubernetes.io/auth-type: basic
-    ingress.kubernetes.io/auth-secret: system-basic-auth
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: system-basic-auth
   name: system-auth-ingress
   namespace: kube-system
 spec:
   rules:
-  - host: grafana.gcloud.bst-1.cns.bstjpc.com
+  - host: grafana.gcloud.srcb.com
     http:
       paths:
       - path: /
         backend:
           serviceName: monitoring-grafana
           servicePort: 80
+  - host: kubernator.gcloud.srcb.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubernator
+          servicePort: 80
+

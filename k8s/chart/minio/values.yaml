@@ -25,7 +25,7 @@ replicas: 1
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistence:
-  enabled: true
+  enabled: false
 
   ## A manually managed Persistent Volume and Claim
   ## Requires persistence.enabled: true
@@ -43,6 +43,17 @@ persistence:
   accessMode: ReadWriteOnce
   size: 10Gi
 
+flexVolume:
+  enabled: true
+  flexVolume:
+    driver: srcb/cephfs
+    options:
+      monitors: 109.105.1.208:6789,109.105.1.209:6789,109.105.1.253:6789,109.105.1.254:6789,109.105.30.157:6789
+      share: '/system_common/minio'
+      authid: 'admin'
+      mds: 'Data_Intelligence_Labfs'
+      keyring: 'AQDeUgJbJgwNMhAAnzeW5LwQSwqMyWs7Zvl5cQ=='
+
 ## If subPath is set mount a sub folder of a volume instead of the root of the volume.
 ## This is especially handy for volume plugins that don't natively support sub mounting (like glusterfs).
 ##
@@ -59,13 +70,13 @@ service:
   port: 9000
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - chart-example.local
+    - minio.gcloud.srcb.com
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -74,9 +85,26 @@ ingress:
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
 ##
-nodeSelector: {}
+nodeSelector:
+  role: master
 tolerations: []
-affinity: {}
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoreDuringExcution:
+    - weight: 5
+      preference:
+        matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - master
+    - weight: 1
+      preference:
+        matchExpressions:
+        - key: type
+          operator: In
+          values:
+          - physics
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/

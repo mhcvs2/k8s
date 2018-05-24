@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kubernator
+  namespace: kube-system
+  labels:
+    k8s-app: kubernator
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: kubernator
+  template:
+    metadata:
+      labels:
+        k8s-app: kubernator
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+    spec:
+      nodeSelector:
+        role: master
+      containers:
+      - name: kubernator
+        image: registry.bst-1.cns.bstjpc.com:5000/smpio/kubernator:latest
+        resources:
+          limits:
+            memory: 170Mi
+          requests:
+            cpu: 100m
+            memory: 70Mi
+        ports:
+        - containerPort: 80
