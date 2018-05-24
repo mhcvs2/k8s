@@ -37,7 +37,7 @@ upload_tgz(){
 }
 
 main(){
-  helm repo index . --url http://s3.gcloud.bst-1.cns.bstjpc.com/charts
+  helm repo index . --url http://minio.gcloud.srcb.com/charts
   upload_file ./index.yaml
   upload_tgz
 }
