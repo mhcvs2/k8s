@@ -1,0 +1,66 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ template "dev-situation.name" . }}
+    chart: {{ template "dev-situation.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  namespace: {{ lower .Values.labName | splitList " " | join "-" }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "dev-situation.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "dev-situation.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          - containerPort: 22
+          - containerPort: 8888
+          resources:
+            limits:
+              cpu: "{{ .Values.cpu }}"
+              memory: {{ .Values.memory }}
+{{- with .Values.gpu }}
+{{- range $i, $v := . }}
+              requests.nvidia.com/gpu-{{ $i }}: "{{ $v }}"
+{{- end }}
+{{- end }}
+          volumeMounts:
+          - mountPath: /root/.ssh_config
+            name: ssh-key
+{{- with .Values.volumeMounts }}
+{{ toYaml . | indent 10 }}
+{{- end }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+      - name: ssh-key
+        configMap:
+        name: {{ lower .Values.userName | splitList " " | join "-" }}
+        items:
+        - key: ssh_public_key
+          path: authorized_keys
+{{- with .Values.volumes }}
+{{ toYaml . | indent 6 }}
+{{- end }}

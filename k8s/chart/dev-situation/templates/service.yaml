@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ template "dev-situation.name" . }}
+    chart: {{ template "dev-situation.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  namespace: {{ lower .Values.labName | splitList " " | join "-" }}
+spec:
+  ports:
+  - name: ssh
+    port: 22
+    protocol: TCP
+  - name: jupyter
+    port: 8888
+    protocol: TCP
+  type: NodePort
+  selector:
+    app: {{ template "dev-situation.name" . }}
+    release: {{ .Release.Name }}
