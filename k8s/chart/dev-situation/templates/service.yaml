@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Release.Name | replace "." "-" }}
   labels:
     app: {{ template "dev-situation.name" . }}
     chart: {{ template "dev-situation.chart" . }}
