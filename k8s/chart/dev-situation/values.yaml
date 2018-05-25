@@ -17,7 +17,7 @@ gpu: {}
 #  p40: 1
 
 nodeSelector:
-  dev: true
+  usage: "dev"
 
 tolerations: []
 
