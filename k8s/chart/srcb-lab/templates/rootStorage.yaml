@@ -21,6 +21,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ lower .Values.labName | splitList " " | join "-" }}-root
+  namespace: {{ lower .Values.labName | splitList " " | join "-" }}
 spec:
   accessModes:
     - ReadWriteMany
