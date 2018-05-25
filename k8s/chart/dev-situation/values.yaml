@@ -10,7 +10,7 @@ image:
   tag: gpu
   pullPolicy: Always
 
-cpu: "500Mi"
+cpu: "500m"
 memory: "1Gi"
 gpu: {}
 #  k20m: 1
