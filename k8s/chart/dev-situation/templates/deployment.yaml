@@ -39,6 +39,14 @@ spec:
           volumeMounts:
           - mountPath: /root/.ssh_config
             name: ssh-key
+          - mountPath: /data
+            name: data-pv
+          - mountPath: /common-data
+            name: common-data-pv
+{{- if .Values.ssd.enabled }}
+          - mountPath: /ssd
+            name: ssd
+{{- end }}
 {{- with .Values.volumeMounts }}
 {{ toYaml . | indent 10 }}
 {{- end }}
@@ -61,6 +69,23 @@ spec:
         items:
         - key: ssh_public_key
           path: authorized_keys
+      - name: data-pv
+        flexVolume:
+          driver: {{ .Values.flexVolume.driver }}
+          options:
+            monitors: {{ .Values.flexVolume.options.monitors }}
+            share: '/{{ lower .Values.userName | splitList " " | join "-" }}'
+            authid: {{ .Values.flexVolume.options.authid }}
+            mds: {{ .Values.flexVolume.options.mds }}
+            keyring: {{ .Values.flexVolume.options.keyring }}
+      - name: common-data-pv
+        persistentVolumeClaim:
+          claimName: {{ lower .Values.labName | splitList " " | join "-" }}-common
+{{- if .Values.ssd.enabled }}
+      - name: ssd
+        persistentVolumeClaim:
+          claimName: {{ .Values.ssd.pvcName }}
+{{- end }}
 {{- with .Values.volumes }}
 {{ toYaml . | indent 6 }}
 {{- end }}
