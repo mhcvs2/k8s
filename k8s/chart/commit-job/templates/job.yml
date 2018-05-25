@@ -13,13 +13,14 @@ spec:
   template:
     spec:
       affinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-          matchExpressions:
-          - key: release
-            operator: In
-            values:
-            - {{ .Values.targetReleaseName }}
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+            matchExpressions:
+            - key: release
+              operator: In
+              values:
+              - {{ .Values.targetReleaseName }}
       volumes:
       - name: docker-sock
         hostPath:

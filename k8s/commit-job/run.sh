@@ -11,6 +11,7 @@ image_name=${IMAGE_NAME}
 image_tag=${IMAGE_TAG}
 author=${AUTHOR}
 message=${MESSAGE}
+except_name=${}
 
 exitIfError(){
  if [ $? -ne 0 ]; then
