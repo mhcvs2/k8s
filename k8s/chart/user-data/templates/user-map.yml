@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ lower .Values.userName | splitList " " | join "-" }}
+  namespace: {{ lower .Values.labName | splitList " " | join "-" }}
+data:
+{{ toYaml .Values.data | indent 2 }}
