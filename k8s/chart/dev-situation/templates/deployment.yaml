@@ -65,7 +65,7 @@ spec:
       volumes:
       - name: ssh-key
         configMap:
-        name: {{ lower .Values.userName | splitList " " | join "-" }}
+        name: {{ lower .Values.userName | splitList " " | join "-" | replace "." "-" }}
         items:
         - key: ssh_public_key
           path: authorized_keys
