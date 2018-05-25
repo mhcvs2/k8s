@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ lower .Values.labName | splitList " " | join "-" }}
+  annotations:
+    department: '{{ .Values.labName }}'
+  labels:
+    srcb-group: {{ lower .Values.labName | splitList " " | join "-" }}

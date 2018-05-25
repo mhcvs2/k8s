@@ -1,0 +1,11 @@
+# Default values for srcb-lab.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+labName: Intelligent Data Lab
+cpu: "100"
+memory: "1024Gi"
+gpu:
+  k20m: 4
+  p40: 1
+
