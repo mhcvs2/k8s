@@ -65,10 +65,10 @@ spec:
       volumes:
       - name: ssh-key
         configMap:
-        name: {{ lower .Values.userName | splitList " " | join "-" | replace "." "-" }}
-        items:
-        - key: ssh_public_key
-          path: authorized_keys
+          name: {{ lower .Values.userName | splitList " " | join "-" | replace "." "-" }}
+          items:
+          - key: ssh_public_key
+            path: authorized_keys
       - name: data-pv
         flexVolume:
           driver: {{ .Values.flexVolume.driver }}
