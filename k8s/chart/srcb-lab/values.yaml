@@ -8,4 +8,13 @@ memory: "1024Gi"
 gpu:
   k20m: 4
   p40: 1
+storage: 10Ti
+
+flexVolume:
+  driver: srcb/cephfs
+  options:
+    monitors: 109.105.1.208:6789,109.105.1.209:6789,109.105.1.253:6789,109.105.1.254:6789,109.105.30.157:6789
+    authid: 'admin'
+    mds: 'Data_Intelligence_Labfs'
+    keyring: 'AQDeUgJbJgwNMhAAnzeW5LwQSwqMyWs7Zvl5cQ=='
 
