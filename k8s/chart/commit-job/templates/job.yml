@@ -7,6 +7,7 @@ metadata:
     chart: {{ template "commit-job.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  namespace: {{ lower .Values.labName | splitList " " | join "-" }}
 spec:
   backoffLimit: 3
   activeDeadlineSeconds: {{ .Values.timeout }}
