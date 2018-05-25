@@ -12,8 +12,14 @@ spec:
   activeDeadlineSeconds: {{ .Values.timeout }}
   template:
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: {{ .Values.targetHostname }}
+      affinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+          matchExpressions:
+          - key: release
+            operator: In
+            values:
+            - {{ .Values.targetReleaseName }}
       volumes:
       - name: docker-sock
         hostPath:
@@ -27,7 +33,7 @@ spec:
           mountPath: /var/run/docker.sock
         env:
         - name: POD_NAME
-          value: {{ .Values.podName }}
+          value: {{ .Values.targetReleaseName }}
         - name: IMAGE_NAME
           value:  {{ .Values.imageName }}
 {{- if .Values.imageTag }}

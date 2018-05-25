@@ -8,8 +8,7 @@ image:
   pullPolicy: IfNotPresent
 
 timeout: 300
-targetHostname: k8s-n1
-podName: "tiller-deploy-8694f8fddc-c2rql"
+targetReleaseName: "hongchao.ma-dev1"
 imageName: "registry.bst-1.cns.bstjpc.com:5000/test-name"
 imageTag: ""
 author: ""
