@@ -51,6 +51,10 @@ domount() {
 	MDS=$(echo $2 | jq -r '.mds')
 	MONITOR=$(echo $2 | jq -r '.monitors')
 	SHARE=$(echo $2 | jq -r '.share')
+	if [[ "$SHARE"x == "null"x ]]
+	then
+		SHARE=/${MNTPATH##*/}
+	fi
 	AUTH_ID=$(echo $2 | jq -r '.authid')
 	KEYRING=$(echo $2 | jq -r '.["kubernetes.io/secret/keyring"]')
 
