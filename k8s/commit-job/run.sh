@@ -61,7 +61,12 @@ main(){
   image_tag=latest
  fi
 
- container_id=$(get-container-id -n ${ns} -l ${label})
+ if ! test -f /container_id; then
+    echo "Can't find active container of pod by label ${label}"
+    exit 1
+ fi
+
+ container_id=$(cat /container_id)
  exitIfError "Can't find active container of pod by label ${label}"
 
  if [ "${container_id}" = "null" ] || [ "${container_id}" = "" ]; then

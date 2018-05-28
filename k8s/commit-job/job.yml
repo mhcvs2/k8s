@@ -44,13 +44,23 @@ spec:
         - name: docker-sock
           mountPath: /var/run/docker.sock
         env:
-        - name: SELECT_LABEL
-          value: release=hongchao.ma-dev1
         - name: IMAGE_NAME
           value:  registry.bst-1.cns.bstjpc.com:5000/test-name
         - name: MY_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        - name: SELECT_LABEL
+          value: release=hongchao.ma-dev1
       restartPolicy: Never
       serviceAccountName: data-intelligent-lab-admin
+      initContainers:
+      - name: get-container-id
+        image: registry.bst-1.cns.bstjpc.com:5000/get-container-id:20180528
+        command: ['bash', '-c', ' get-container-id -n ${MY_NAMESPACE} -l ${SELECT_LABEL}']
+        - name: MY_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: SELECT_LABEL
+          value: release=hongchao.ma-dev1
