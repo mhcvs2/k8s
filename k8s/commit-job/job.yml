@@ -31,6 +31,10 @@ spec:
       - name: commit-push
         image: registry.bst-1.cns.bstjpc.com:5000/docker-commit-push:18.03.0-ce
         imagePullPolicy: IfNotPresent
+        command:
+        - bash
+        - -c
+        - "tail -f /dev/null"
         resources:
           limits:
             cpu: 100m
