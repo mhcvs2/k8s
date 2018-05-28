@@ -1,12 +1,51 @@
 apiVersion: v1
 entries:
+  commit-job:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-05-25T12:55:33.396319745Z
+    description: A Helm chart for Kubernetes
+    digest: b20f253e2476e42926a7c980c38db1ff07f63713607f6d84fc565c77b8fd4084
+    name: commit-job
+    urls:
+    - http://minio.gcloud.srcb.com/charts/commit-job-0.1.0.tgz
+    version: 0.1.0
+  dev-situation:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-05-25T12:55:33.39711754Z
+    description: A Helm chart for Kubernetes
+    digest: 9c080bc3864664712742577c4818799f44a04d47f02835bd84b54c457525be15
+    name: dev-situation
+    urls:
+    - http://minio.gcloud.srcb.com/charts/dev-situation-0.1.0.tgz
+    version: 0.1.0
+  docker-registry:
+  - apiVersion: v1
+    appVersion: 2.6.2
+    created: 2018-05-25T12:55:33.399300861Z
+    description: A Helm chart for Docker Registry
+    digest: 21b5e3ea131a30559216ba9caf79544b58024e1dc63cb2edd577288434656f7a
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    maintainers:
+    - email: jpds@protonmail.com
+      name: jpds
+    - email: pete.brown@powerhrg.com
+      name: rendhalver
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - http://minio.gcloud.srcb.com/charts/docker-registry-1.1.1.tgz
+    version: 1.1.1
   jenkins:
   - appVersion: "2.107"
-    created: 2018-05-09T17:15:11.378889203+08:00
+    created: 2018-05-25T12:55:33.401691702Z
     description: Open source continuous integration server. It supports multiple SCM
       tools including CVS, Subversion and Git. It can execute Apache Ant and Apache
       Maven-based projects as well as arbitrary scripts.
-    digest: e6cd9ecd9380429c0ef2dbe568ece6a6ec2939f975374cfacb019b5552d0f42c
+    digest: 64796d3f51c7e72c41fe1891ed63bcdee9e3eae7160b9c690d88b83cf53ddb64
     home: https://jenkins.io/
     icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
     maintainers:
@@ -19,15 +58,15 @@ entries:
     - https://github.com/jenkinsci/jenkins
     - https://github.com/jenkinsci/docker-jnlp-slave
     urls:
-    - http://s3.gcloud.bst-1.cns.bstjpc.com/charts/jenkins-0.14.4.tgz
+    - http://minio.gcloud.srcb.com/charts/jenkins-0.14.4.tgz
     version: 0.14.4
   minio:
   - apiVersion: v1
     appVersion: RELEASE.2018-03-16T22-52-12Z
-    created: 2018-05-09T17:15:11.37958762+08:00
+    created: 2018-05-25T12:55:33.404349203Z
     description: Distributed object storage server built for cloud applications and
       devops.
-    digest: eaba61e5983928a4b9a448c739fb31f165008285dd1f7c68e50fc98a2ccd6109
+    digest: 76a08c46c5566279c43cfae1586a9b4efdc3a0732331172a32f72d45ca78d37a
     home: https://minio.io
     icon: https://www.minio.io/img/logo_160x160.png
     keywords:
@@ -43,15 +82,62 @@ entries:
     sources:
     - https://github.com/minio/minio
     urls:
-    - http://s3.gcloud.bst-1.cns.bstjpc.com/charts/minio-1.1.1.tgz
+    - http://minio.gcloud.srcb.com/charts/minio-1.1.1.tgz
     version: 1.1.1
+  nginx-ingress:
+  - appVersion: 0.12.0
+    created: 2018-05-25T12:55:33.407030216Z
+    description: An nginx Ingress controller that uses ConfigMap to store the nginx
+      configuration.
+    digest: 3154f7a533e480b53dda1ce90fd21354eab56a314601b47b15f845e4684ff74e
+    engine: gotpl
+    home: https://github.com/kubernetes/ingress-nginx
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png
+    keywords:
+    - ingress
+    - nginx
+    maintainers:
+    - email: jack.zampolin@gmail.com
+      name: jackzampolin
+    - email: mgoodness@gmail.com
+      name: mgoodness
+    - email: chance.zibolski@coreos.com
+      name: chancez
+    name: nginx-ingress
+    sources:
+    - https://github.com/kubernetes/ingress-nginx
+    urls:
+    - http://minio.gcloud.srcb.com/charts/nginx-ingress-0.13.1.tgz
+    version: 0.13.1
+  nvidia-device-plugin:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-05-25T12:55:33.40773826Z
+    description: A Helm chart for Kubernetes
+    digest: 5209b69663f22c40942a8f15e78bc38121d8d3103186b6f4c0e4e1a67ec2979e
+    name: nvidia-device-plugin
+    urls:
+    - http://minio.gcloud.srcb.com/charts/nvidia-device-plugin-0.1.0.tgz
+    version: 0.1.0
+  rook:
+  - apiVersion: v1
+    created: 2018-05-25T12:55:33.40878719Z
+    description: File, Block, and Object Storage Services for your Cloud-Native Environment
+    digest: 58d376d0408f8bc5df28d0c865e96525b898856824cb46d217ba87c8b3232c40
+    icon: https://rook.io/images/logos/rook/rook-logo-color-on-transparent.png
+    name: rook
+    sources:
+    - https://github.com/rook/rook
+    urls:
+    - http://minio.gcloud.srcb.com/charts/rook-0.0.1.tgz
+    version: 0.0.1
   spinnaker:
   - apiVersion: v1
     appVersion: 1.6.0
-    created: 2018-05-09T17:15:11.382359286+08:00
+    created: 2018-05-25T12:55:33.417527479Z
     description: Open source, multi-cloud continuous delivery platform for releasing
       software changes with high velocity and confidence.
-    digest: 13c33ca6cc95362635a1602e67bf75df094c64d0d8c12df76b5c83943f5c702e
+    digest: 85a273a2eddb5746f2b624d7d735c1bfd85d92db141e260fa6fa42401278dfba
     home: http://spinnaker.io/
     icon: https://pbs.twimg.com/profile_images/669205226994319362/O7OjwPrh_400x400.png
     maintainers:
@@ -62,6 +148,26 @@ entries:
     - https://github.com/spinnaker
     - https://github.com/viglesiasce/images
     urls:
-    - http://s3.gcloud.bst-1.cns.bstjpc.com/charts/spinnaker-0.4.0.tgz
+    - http://minio.gcloud.srcb.com/charts/spinnaker-0.4.0.tgz
     version: 0.4.0
-generated: 2018-05-09T17:15:11.377930619+08:00
+  srcb-lab:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-05-25T12:55:33.418282577Z
+    description: A Helm chart for Kubernetes
+    digest: 3e549cdc085de797cf8f0c1938a951f6bbaa6f78c3d573e171c22ffe4958bf8a
+    name: srcb-lab
+    urls:
+    - http://minio.gcloud.srcb.com/charts/srcb-lab-0.1.0.tgz
+    version: 0.1.0
+  user-data:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-05-25T12:55:33.419248507Z
+    description: A Helm chart for Kubernetes
+    digest: 652e0383fbe3d29fef713ade94d889b0903925437d9e340ef01edc4d4aefdc10
+    name: user-data
+    urls:
+    - http://minio.gcloud.srcb.com/charts/user-data-0.1.0.tgz
+    version: 0.1.0
+generated: 2018-05-25T12:55:33.395018001Z
