@@ -6,12 +6,12 @@
 #AUTHOR="mhc haha"
 #MESSAGE="describe aa"
 
-pod_name=${POD_NAME}
+label=${SELECT_LABEL}
 image_name=${IMAGE_NAME}
 image_tag=${IMAGE_TAG}
 author=${AUTHOR}
 message=${MESSAGE}
-except_name=${}
+ns=${MY_NAMESPACE}
 
 exitIfError(){
  if [ $? -ne 0 ]; then
@@ -61,8 +61,18 @@ main(){
   image_tag=latest
  fi
 
- container_id=$(docker ps|grep "${pod_name}"|grep -v pause-amd64|awk '{print $1}')
- exitIfNull x${container_id} "Can't find active container of pod ${pod_name}"
+ container_id=$(get-container-id -n ${ns} -l ${label})
+ exitIfError "Can't find active container of pod by label ${label}"
+
+ if [ "${container_id}" = "null" ] || [ "${container_id}" = "" ]; then
+    echo "Can't find active container of pod by label ${label}"
+    exit 1
+ fi
+
+  if [ "${container_id}" = "multi" ]; then
+    echo "Multiple pods matched by label ${label}"
+    exit 1
+ fi
 
  run_cmd "${commit_cmd} ${container_id} ${image_name}:${image_tag}"
  run_cmd "${push_cmd} ${image_name}:${image_tag}"

@@ -1,14 +1,28 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: commit-push-test
+  name: test-job001-commit-job
+  labels:
+    app: commit-job
+    chart: commit-job-0.1.0
+    release: test-job001
+    heritage: Tiller
+  namespace: intelligent-data-lab
 spec:
   backoffLimit: 3
   activeDeadlineSeconds: 300
   template:
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: k8s-n1
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: release
+                operator: In
+                values:
+                - hongchao.ma-dev1
+            topologyKey: kubernetes.io/hostname
       volumes:
       - name: docker-sock
         hostPath:
@@ -16,19 +30,20 @@ spec:
       containers:
       - name: commit-push
         image: registry.bst-1.cns.bstjpc.com:5000/docker-commit-push:18.03.0-ce
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
         volumeMounts:
         - name: docker-sock
           mountPath: /var/run/docker.sock
         env:
-        - name: POD_NAME
-          value: "tiller-deploy-8694f8fddc-c2rql"
+        - name: SELECT_LABEL
+          value: release=hongchao.ma-dev1
         - name: IMAGE_NAME
-          value:  "registry.bst-1.cns.bstjpc.com:5000/test-name"
-        - name: IMAGE_TAG
-          value: "test-tag"
-        - name: AUTHOR
-          value: "mhc"
-        - name: MESSAGE
-          value: "message example"
+          value:  registry.bst-1.cns.bstjpc.com:5000/test-name
+        - name: MY_NAMESPACE
+          valueFrom:
+            fieldPath: metadata.namespace
       restartPolicy: Never
