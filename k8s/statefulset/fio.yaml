@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: test-statefulset
+spec:
+  selector:
+    matchLabels:
+      app: test-statefulset
+  serviceName: "test-statefulset"
+  replicas: 3 # by default is 1
+  template:
+    metadata:
+      labels:
+        app: test-statefulset
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/clusterhq/fio-tool:latest
+        name: fio
+        command:
+        - bash
+        - -c
+        - "while true; do sleep 10; done"
+        volumeMounts:
+        - name: fio-test
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: fio-test
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "tmp-ceph-storage"
+      resources:
+        requests:
+          storage: 1Gi

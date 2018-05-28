@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-tmp-ceph
+spec:
+  accessModes:
+#    - ReadWriteMany
+  - ReadWriteOnce
+#  volumeName: tmp-ceph-pv1
+  storageClassName: tmp-ceph-storage
+  resources:
+    requests:
+      storage: 1Gi

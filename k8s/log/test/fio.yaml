@@ -1,0 +1,28 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: test-tmp-ceph
+  labels:
+    app: test-tmp-ceph
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: test-tmp-ceph
+    spec:
+      containers:
+      - image: registry.bst-1.cns.bstjpc.com:5000/clusterhq/fio-tool:latest
+        name: fio
+        command:
+        - bash
+        - -c
+        - "while true; do sleep 10; done"
+        volumeMounts:
+        - name: fio-test-pv
+          mountPath: /data
+      volumes:
+      - name: fio-test-pv
+        persistentVolumeClaim:
+          claimName: test-tmp-ceph
