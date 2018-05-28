@@ -66,7 +66,7 @@ main(){
     exit 1
  fi
 
- container_id=$(cat /container_id)
+ container_id=$(cat /share/container_id)
  exitIfError "Can't find active container of pod by label ${label}"
 
  if [ "${container_id}" = "null" ] || [ "${container_id}" = "" ]; then
