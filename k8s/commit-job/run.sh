@@ -13,6 +13,8 @@ author=${AUTHOR}
 message=${MESSAGE}
 ns=${MY_NAMESPACE}
 
+id_file=/share/container_id
+
 exitIfError(){
  if [ $? -ne 0 ]; then
   echo $1
@@ -61,12 +63,12 @@ main(){
   image_tag=latest
  fi
 
- if ! test -f /container_id; then
+ if ! test -f ${id_file}; then
     echo "Can't find active container of pod by label ${label}"
     exit 1
  fi
 
- container_id=$(cat /share/container_id)
+ container_id=$(cat ${id_file})
  exitIfError "Can't find active container of pod by label ${label}"
 
  if [ "${container_id}" = "null" ] || [ "${container_id}" = "" ]; then

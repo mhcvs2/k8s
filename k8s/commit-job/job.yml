@@ -31,8 +31,7 @@ spec:
         emptyDir: {}
       containers:
       - name: commit-push
-#        image: registry.bst-1.cns.bstjpc.com:5000/docker-commit-push:20180528
-        image: registry.bst-1.cns.bstjpc.com:5000/debian:stretch-slim
+        image: registry.bst-1.cns.bstjpc.com:5000/docker-commit-push:20180528
         imagePullPolicy: Always
         command:
         - sh
