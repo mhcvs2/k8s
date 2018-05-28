@@ -109,9 +109,8 @@ spec:
   - metadata:
       name: elasticsearch-logging
     spec:
-      accessModes:
-      - ReadWriteOnce
-      storageClassName: tmp-ceph-storage
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "tmp-ceph-storage"
       resources:
         requests:
           storage: 1Gi
