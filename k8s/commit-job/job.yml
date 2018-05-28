@@ -38,8 +38,8 @@ spec:
         - "tail -f /dev/null"
         resources:
           limits:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 50m
+            memory: 100Mi
         volumeMounts:
         - name: docker-sock
           mountPath: /var/run/docker.sock
@@ -57,10 +57,18 @@ spec:
       initContainers:
       - name: get-container-id
         image: registry.bst-1.cns.bstjpc.com:5000/get-container-id:20180528
-        command: ['bash', '-c', ' get-container-id -n ${MY_NAMESPACE} -l ${SELECT_LABEL}']
+        command:
+        - bash
+        - -c
+        - "get-container-id -n ${MY_NAMESPACE} -l ${SELECT_LABEL}"
+        env:
         - name: MY_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
         - name: SELECT_LABEL
           value: release=hongchao.ma-dev1
+        resources:
+          limits:
+            cpu: 50m
+            memory: 100Mi
