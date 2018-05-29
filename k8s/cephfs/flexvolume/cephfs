@@ -88,24 +88,25 @@ domount() {
 	mkdir -p ${MNTPATH} &> /dev/null
 	# Expect the conf file to be written in /etc/ceph/ceph.conf	which is where the
 	# ceph puppet module installs the file.
-	mkdir /id_gpu_lyf &>/dev/null
-	mount -t ceph  $MONITOR:/ /id_gpu_lyf -o mds_namespace=${MDS},name=${AUTH_ID},secretfile=${KEYRING_PATH}
-        if [ $? -ne 0 ]; then
-                err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:${SHARE} at ${MNTPATH}: ${output}\"}"
-                exit 1
-        else
+	TMPDIR=$(mktemp -d)
+    debug "tmp dir is $TMPDIR"
+	output=$(mount -t ceph  ${MONITOR}:/ ${TMPDIR} -o mds_namespace=${MDS},name=${AUTH_ID},secretfile=${KEYRING_PATH})
+    if [ $? -ne 0 ]; then
+       err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:/ at ${TMPDIR}:${output}\"}"
+       exit 1
+    fi
 
-		mkdir -p /id_gpu_lyf$SHARE
-	        if [ $? -ne 0 ]; then
-	                err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:${SHARE} at ${MNTPATH}: ${output}\"}"
-	                exit 1
-	        fi
-		umount /id_gpu_lyf && rm -rf /id_gpu_lyf
-        	if [ $? -ne 0 ]; then
-               		 err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:${SHARE} at ${MNTPATH}: ${output}\"}"
-                	 exit 1
-        	fi
+	mkdir -p ${TMPDIR}${SHARE}
+	if [ $? -ne 0 ]; then
+	   err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:/ at ${TMPDIR}\"}"
+	   exit 1
 	fi
+    umount ${TMPDIR} && rm -rf ${TMPDIR}
+    if [ $? -ne 0 ]; then
+        err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:/ at ${TMPDIR}\"}"
+        exit 1
+    fi
+
 	debug "mount command:"
 	debug "mount -t ceph  $MONITOR:$SHARE ${MNTPATH} -o mds_namespace=${MDS},name=${AUTH_ID},secretfile=${KEYRING_PATH}" 
 	output=$(mount -t ceph  $MONITOR:$SHARE ${MNTPATH} -o mds_namespace=${MDS},name=${AUTH_ID},secretfile=${KEYRING_PATH} 2>&1)
@@ -137,6 +138,65 @@ unmount() {
 	exit 0
 }
 
+# provisions a volume
+provision(){
+    debug "provision() called"
+    debug $1
+    log "{\"status\": \"Success\"}"
+    exit 0
+}
+
+# deletes a provisioned volume
+delete(){
+    debug "delete() called"
+    debug $1
+
+	MDS=$(echo $1 | jq -r '.mds')
+	MONITOR=$(echo $1 | jq -r '.monitors')
+    SHARE=$(echo $1 | jq -r '.share')
+	if [[ "$SHARE" == "null" ]]
+	then
+		SHARE=/$(echo $1 | jq -r '.["srcb.com/pvOrVolumeName"]')
+	fi
+
+	AUTH_ID=$(echo $1 | jq -r '.authid')
+	KEYRING=$(echo $1 | jq -r '.["kubernetes.io/secret/keyring"]')
+
+	# If value of keyring  is null it means secret not present. Try to parse it
+	# from an option instead of a secret
+	if [[ ${KEYRING} == 'null' ]]; then
+		KEYRING=$(echo $1 | jq -r '.keyring')
+	fi
+
+	# If keyring is still null, it means there is no keyring. Abort
+	if [[ ${KEYRING} == 'null' ]]; then
+		err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share ${SHARE} at ${MNTPATH} due to no keyring\"}"
+		exit 1
+	fi
+
+	TMPDIR=$(mktemp -d)
+    debug "tmp dir is $TMPDIR"
+	output=$(mount -t ceph  ${MONITOR}:/ ${TMPDIR} -o mds_namespace=${MDS},name=${AUTH_ID},secret=${KEYRING})
+    if [ $? -ne 0 ]; then
+       err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:/ at ${TMPDIR}:${output}\"}"
+       exit 1
+    fi
+
+	rm -rf ${TMPDIR}${SHARE}
+	if [ $? -ne 0 ]; then
+	   err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:/ at ${TMPDIR}\"}"
+	   exit 1
+	fi
+    umount ${TMPDIR} && rm -rf ${TMPDIR}
+    if [ $? -ne 0 ]; then
+        err "{ \"status\": \"Failure\", \"message\": \"Failed to mount CephFS share $MONITOR:/ at ${TMPDIR}\"}"
+        exit 1
+    fi
+
+    log "{\"status\": \"Success\"}"
+    exit 0
+}
+
 op=$1
 
 if [ "$op" = "init" ]; then
@@ -158,6 +218,12 @@ case "$op" in
 		;;
 	unmount)
 		unmount $*
+		;;
+	provision)
+		provision $*
+		;;
+	delete)
+		delete $*
 		;;
 	*)
 		log "{ \"status\": \"Not supported\" }"
