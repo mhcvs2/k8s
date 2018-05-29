@@ -1,0 +1,15 @@
+---
+- hosts: k8s-nodes
+  gather_facts: no
+
+  tasks:
+
+  - name: Create plugin directory
+    file:
+      path: /var/lib/kubelet/volumeplugins/srcb~cephfs
+      state: directory
+  - name: copy executable file to remote
+    copy:
+      src: cephfs
+      dest: /var/lib/kubelet/volumeplugins/srcb~cephfs/cephfs
+      mode: +x
