@@ -33,7 +33,7 @@ spec:
               memory: {{ .Values.memory }}
 {{- with .Values.gpu }}
 {{- range $i, $v := . }}
-              requests.nvidia.com/gpu-{{ $i }}: "{{ $v }}"
+              nvidia.com/gpu-{{ $i }}: "{{ $v }}"
 {{- end }}
 {{- end }}
           volumeMounts:

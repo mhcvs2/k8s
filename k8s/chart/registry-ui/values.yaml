@@ -10,8 +10,8 @@ image:
   pullPolicy: IfNotPresent
 
 registry:
-  host: registry.bst-1.cns.bstjpc.com
-  port: 5000
+  host: registry.gcloud.srcb.com
+  port: 443
   protocol: https
   ssl_verify: false
   allow_login: true
@@ -28,7 +28,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - ui.registry.triton.gcloud.srcb.com
+    - ui.registry.gcloud.srcb.com
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
