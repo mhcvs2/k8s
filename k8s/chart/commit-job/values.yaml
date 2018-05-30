@@ -4,9 +4,9 @@
 
 image:
   repository: registry.bst-1.cns.bstjpc.com:5000/docker-commit-push
-  tag: "20180528"
+  tag: "20180530"
   pullPolicy: IfNotPresent
-  init: registry.bst-1.cns.bstjpc.com:5000/get-container-id:20180528
+#  init: registry.bst-1.cns.bstjpc.com:5000/get-container-id:20180528
 
 labName: Intelligent Data Lab
 timeout: 300
