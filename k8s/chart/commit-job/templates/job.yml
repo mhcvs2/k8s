@@ -43,6 +43,10 @@ spec:
           mountPath: /var/run/docker.sock
 #        - name: share
 #          mountPath: /share
+        command:
+        - bash
+        - -c
+        - "tail -f /dev/null"
         env:
         - name: MY_NAMESPACE
           valueFrom:
