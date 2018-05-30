@@ -51,18 +51,18 @@ spec:
         - name: SELECT_LABEL
           value: release={{ .Values.targetReleaseName }}
         - name: IMAGE_NAME
-          value:  {{ .Values.imageName }}
+          value:  "{{ .Values.imageName }}"
 {{- if .Values.imageTag }}
         - name: IMAGE_TAG
-          value: {{ .Values.imageTag }}
+          value: "{{ .Values.imageTag }}"
 {{- end }}
 {{- if .Values.author }}
         - name: AUTHOR
-          value: {{ .Values.author }}
+          value: "{{ .Values.author }}"
 {{- end }}
 {{- if .Values.message }}
         - name: MESSAGE
-          value: {{ .Values.message }}
+          value: "{{ .Values.message }}"
 {{- end }}
       restartPolicy: Never
       initContainers:
