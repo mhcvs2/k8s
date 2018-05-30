@@ -16,7 +16,7 @@ spec:
   rules:
   - host: {{ .Values.ingress.url | quote }}
     {{- if (not (empty .Values.ingress.tls)) }}
-    https:
+    http:
       paths:
       - path: /
         backend:

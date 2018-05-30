@@ -1,5 +1,5 @@
 ## postgres image repository
-image: "postgres"
+image: "registry.bst-1.cns.bstjpc.com:5000/postgres"
 ## postgres image version
 ## ref: https://hub.docker.com/r/library/postgres/tags/
 ##
@@ -38,7 +38,7 @@ persistence:
   ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
   ## Default: volume.alpha.kubernetes.io/storage-class: default
   ##
-  # storageClass:
+#  storageClass:
   accessMode: ReadWriteOnce
   size: 8Gi
   subPath: "postgresql-db"

@@ -1,7 +1,7 @@
 ## GitLab CE image
 ## ref: https://hub.docker.com/r/gitlab/gitlab-ce/tags/
 ##
-image: gitlab/gitlab-ce:9.4.1-ce.0
+image: registry.bst-1.cns.bstjpc.com:5000/gitlab/gitlab-ce:9.4.1-ce.0
 
 ## Specify a imagePullPolicy
 ## 'Always' if imageTag is 'latest', else set to 'IfNotPresent'
@@ -12,7 +12,7 @@ image: gitlab/gitlab-ce:9.4.1-ce.0
 ## The URL (with protocol) that your users will use to reach the install.
 ## ref: https://docs.gitlab.com/omnibus/settings/configuration.html#configuring-the-external-url-for-gitlab
 ##
-#externalUrl: http://your-domain.com/
+externalUrl: http://gitlab.gcloud.srcb.com/
 
 ## Change the initial default admin password if set. If not set, you'll be
 ## able to set it when you first visit your install.
@@ -22,20 +22,35 @@ image: gitlab/gitlab-ce:9.4.1-ce.0
 ## For minikube, set this to NodePort, elsewhere use LoadBalancer
 ## ref: http://kubernetes.io/docs/user-guide/services/#publishing-services---service-types
 ##
-serviceType: LoadBalancer
+serviceType: NodePort
 
 ## Ingress configuration options
 ##
 ingress:
   annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+#    kubernetes.io/ingress.class: "nginx"
+#    nginx.ingress.kubernetes.io/secure-backends: "true"
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
-  enabled: false
+  enabled: true
   tls:
-      # - secretName: gitlab.cluster.local
-      #   hosts:
-      #     - gitlab.cluster.local
-  url: gitlab.cluster.local
+#       - secretName: gitlab-tls
+#         hosts:
+#           - gitlab.gcloud.srcb.com
+  url: gitlab.gcloud.srcb.com
+
+proxy:
+  enabled: false
+#  env:
+#  - name: http_proxy
+#    value: http://109.105.4.17:8119
+#  - name: https_proxy
+#    value: http://109.105.4.17:8119
+#  - name: no_proxy
+#    value: 127.0.0.1,localhost,k8s-m1,gcloud.srcb.com,bst-1.cns.bstjpc.com,gitlab-postgresql,gitlab-redis,kubernetes.default,cluster.local,10.96.0.1,10.96.0.10
 
 ## Configure external service ports
 ## ref: http://kubernetes.io/docs/user-guide/services/
@@ -58,8 +73,8 @@ resources:
     memory: 1Gi
     cpu: 500m
   limits:
-    memory: 2Gi
-    cpu: 1
+    memory: 4Gi
+    cpu: 2
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -74,7 +89,7 @@ persistence:
     ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
     ## Default: volume.alpha.kubernetes.io/storage-class: default
     ##
-    # storageClass:
+    storageClass: cephfs-flex-volume
     accessMode: ReadWriteOnce
   ## This volume is used to store git data and other project files.
   ## ref: https://docs.gitlab.com/omnibus/settings/configuration.html#storing-git-data-in-an-alternative-directory
@@ -85,7 +100,7 @@ persistence:
     ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
     ## Default: volume.alpha.kubernetes.io/storage-class: default
     ##
-    # storageClass:
+    storageClass: cephfs-flex-volume
     accessMode: ReadWriteOnce
 
 ## Configuration values for the postgresql dependency.
@@ -103,6 +118,7 @@ postgresql:
 
   persistence:
     size: 10Gi
+    storageClass: cephfs-flex-volume
 
 ## Configuration values for the redis dependency.
 ## ref: https://github.com/kubernetes/charts/blob/master/stable/redis/README.md
@@ -116,3 +132,4 @@ redis:
 
   persistence:
     size: 10Gi
+    storageClass: cephfs-flex-volume

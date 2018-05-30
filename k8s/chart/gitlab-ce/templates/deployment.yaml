@@ -65,6 +65,9 @@ spec:
             secretKeyRef:
               name: {{ template "gitlab-ce.fullname" . }}
               key: redis-password
+{{- if .Values.proxy.enabled }}
+{{ toYaml .Values.proxy.env | indent 8 }}
+{{- end }}
         ports:
         - name: ssh
           containerPort: 22

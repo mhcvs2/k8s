@@ -26,8 +26,8 @@ spec:
         image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/kubernetes-dashboard-amd64:v1.8.3
         resources:
           limits:
-            cpu: 100m
-            memory: 300Mi
+            cpu: 2
+            memory: 4Gi
           requests:
             cpu: 50m
             memory: 100Mi
