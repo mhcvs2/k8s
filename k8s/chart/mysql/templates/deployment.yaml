@@ -19,7 +19,7 @@ spec:
       {{- end }}
       initContainers:
       - name: "remove-lost-found"
-        image: "busybox:1.25.0"
+        image: "registry.bst-1.cns.bstjpc.com:5000/busybox:1.25.0"
         imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
         command:  ["rm", "-fr", "/var/lib/mysql/lost+found"]
         volumeMounts:
