@@ -1,2 +1,2 @@
-SRCB GPU Infra
+SRCB GPU Infra 2018
 --------------------
