@@ -1,5 +1,5 @@
 ---
-- hosts: k8s-m
+- hosts: 109.105.1.246
   gather_facts: no
   tasks:
   - name: Send audit policy file to remote
