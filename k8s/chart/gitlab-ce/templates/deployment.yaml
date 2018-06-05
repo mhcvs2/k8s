@@ -107,6 +107,9 @@ spec:
       {{- if .Values.persistence.gitlabEtc.enabled }}
         persistentVolumeClaim:
           claimName: {{ template "gitlab-ce.fullname" . }}-etc
+        {{- else if .Values.flexVolume.enabled }}
+        flexVolume:
+{{ toYaml .Values.flexVolume.gitlabEtc.flexVolume | indent 10 }}
       {{- else }}
         emptyDir: {}
       {{- end }}
@@ -114,6 +117,9 @@ spec:
       {{- if .Values.persistence.gitlabData.enabled }}
         persistentVolumeClaim:
           claimName: {{ template "gitlab-ce.fullname" . }}-data
+        {{- else if .Values.flexVolume.enabled }}
+        flexVolume:
+{{ toYaml .Values.flexVolume.gitlabData.flexVolume | indent 10 }}
       {{- else }}
         emptyDir: {}
       {{- end }}

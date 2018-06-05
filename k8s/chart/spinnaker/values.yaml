@@ -7,6 +7,7 @@
 accounts:
 - name: dockerhub
   address: https://registry.bst-1.cns.bstjpc.com:5000
+  insecureRegistry: false
   repositories:
     - library/ubuntu
 # - name: gcr
@@ -33,7 +34,7 @@ slack:
 
 # Images for each component
 images:
-  clouddriver: registry.bst-1.cns.bstjpc.com:5000/gcr.io/spinnaker-marketplace/clouddriver:2.0.0-20180221152902
+  clouddriver: registry.bst-1.cns.bstjpc.com:5000/gcr.io/spinnaker-marketplace/clouddriver:2.0.0-20180526    #2.0.0-20180221152902
   echo: registry.bst-1.cns.bstjpc.com:5000/gcr.io/spinnaker-marketplace/echo:0.8.0-20180221133510
   deck: registry.bst-1.cns.bstjpc.com:5000/gcr.io/spinnaker-marketplace/deck:2.1.0-20180221143146
   igor: registry.bst-1.cns.bstjpc.com:5000/gcr.io/spinnaker-marketplace/igor:0.9.0-20180221133510
@@ -80,18 +81,18 @@ resources:
 # Node labels for pod assignment
 # Ref: https://kubernetes.io/docs/user-guide/node-selection/
 # nodeSelector to provide to each of the Spinnaker components
-nodeSelector: {}
-#  type: triton
+nodeSelector:
+  role: master
 
 # Redis password to use for the in-cluster redis service
 # Redis is not exposed publically
 redis:
   redisPassword: cloudpi
-  nodeSelector: {}
-#    type: triton
+  nodeSelector:
+  role: master
   persistence:
-    enabled: false
-    storageClass: rook-gcloud-system
+    enabled: true
+    storageClass: cephfs-flex-volume
     accessMode: ReadWriteOnce
     size: 10Gi
 
@@ -103,11 +104,11 @@ minio:
   serviceType: ClusterIP
   accessKey: "AKIAIOSFODNN7EXAMPLE"
   secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-  nodeSelector: {}
-#    type: triton
+  nodeSelector:
+      role: master
   persistence:
-    enabled: false
-    storageClass: rook-gcloud-system
+    enabled: true
+    storageClass: cephfs-flex-volume
     accessMode: ReadWriteOnce
     size: 10Gi
 
@@ -133,11 +134,11 @@ jenkins:
   Agent:
     Cpu: "500m"
     Memory: "512Mi"
-    NodeSelector: {}
-#      type: triton
+    NodeSelector:
+      role: master
 
   Persistence:
     Enabled: false
-    StorageClass: rook-gcloud-system
+    StorageClass: cephfs-flex-volume
     AccessMode: ReadWriteOnce
     Size: 8Gi

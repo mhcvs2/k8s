@@ -27,14 +27,14 @@ Master:
      - name: https_proxy
        value: "http://109.105.4.17:8119"
      - name: no_proxy
-       value: "localhost,127.0.0.1,bst-1.cns.bstjpc.com,cluster.local,kubernetes.default,kubernetes.default.svc"
+       value: "localhost,127.0.0.1,bst-1.cns.bstjpc.com,cluster.local,kubernetes.default,kubernetes.default.svc,gcloud.srcb.com"
   ContainerEnv:
      - name: http_proxy
        value: "http://109.105.4.17:3128"
      - name: https_proxy
        value: "http://109.105.4.17:8119"
      - name: no_proxy
-       value: "localhost,127.0.0.1,bst-1.cns.bstjpc.com,cluster.local,kubernetes.default,kubernetes.default.svc"
+       value: "localhost,127.0.0.1,bst-1.cns.bstjpc.com,cluster.local,kubernetes.default,kubernetes.default.svc,gcloud.srcb.com"
   # Set min/max heap here if needed with:
   # JavaOpts: "-Xms512m -Xmx512m"
   # JenkinsOpts: ""

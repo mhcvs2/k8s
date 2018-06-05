@@ -92,6 +92,9 @@ data:
           {{- if $account.password }}
           passwordFile: /tmp/registry/password-{{ $account.name }}
           {{- end }}
+          {{- if $account.insecureRegistry }}
+          insecureRegistry: "{{ $account.insecureRegistry }}"
+          {{- end }}
           {{- if $account.trackDigests }}
           trackDigests: {{ $account.trackDigests }}
           {{- end }}

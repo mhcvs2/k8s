@@ -1,0 +1,30 @@
+---
+- hosts: new-n
+  gather_facts: no
+  vars_files:
+    - var.yaml
+  tasks:
+
+  - name: stop firewalld
+    systemd:
+      name: firewalld
+      enabled: false
+      state: stopped
+
+  - name: install git
+    shell: which git &> /dev/null || http_proxy=109.105.4.17:8119 https_proxy=109.105.4.17:8119 yum install git -y
+
+  - name: git clone shell
+    shell: test -d /root/shell || http_proxy=109.105.4.17:8119 https_proxy=109.105.4.17:8119 git clone https://github.com/mhcvs2/shell.git
+    args:
+      chdir: /root
+
+  - name: git pull
+    shell: http_proxy=109.105.4.17:8119 https_proxy=109.105.4.17:8119 git pull
+    args:
+      chdir: /root/shell
+
+  - name: clear
+    shell: bash ./clear_orphaned_pod.sh
+    args:
+      chdir: /root/shell/k8s-auth

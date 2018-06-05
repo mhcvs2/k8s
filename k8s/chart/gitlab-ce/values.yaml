@@ -76,6 +76,26 @@ resources:
     memory: 4Gi
     cpu: 2
 
+flexVolume:
+  enabled: true
+  gitlabEtc:
+    flexVolume:
+      driver: srcb/cephfs
+      options:
+        monitors: ceph-mon1:6789,ceph-mon2:6789,ceph-mon3:6789,ceph-mon4:6789,ceph-mon5:6789
+        share: '/system_common/gitlab/etc'
+        authid: 'admin'
+        mds: 'Data_Intelligence_Labfs'
+        keyring: 'AQDeUgJbJgwNMhAAnzeW5LwQSwqMyWs7Zvl5cQ=='
+  gitlabData:
+    flexVolume:
+      driver: srcb/cephfs
+      options:
+        monitors: ceph-mon1:6789,ceph-mon2:6789,ceph-mon3:6789,ceph-mon4:6789,ceph-mon5:6789
+        share: '/system_common/gitlab/data'
+        authid: 'admin'
+        mds: 'Data_Intelligence_Labfs'
+        keyring: 'AQDeUgJbJgwNMhAAnzeW5LwQSwqMyWs7Zvl5cQ=='
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ## ref: https://docs.gitlab.com/ce/install/requirements.html#storage
@@ -84,7 +104,7 @@ persistence:
   ## This volume persists generated configuration files, keys, and certs.
   ##
   gitlabEtc:
-    enabled: true
+    enabled: false
     size: 1Gi
     ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
     ## Default: volume.alpha.kubernetes.io/storage-class: default
@@ -95,7 +115,7 @@ persistence:
   ## ref: https://docs.gitlab.com/omnibus/settings/configuration.html#storing-git-data-in-an-alternative-directory
   ##
   gitlabData:
-    enabled: true
+    enabled: false
     size: 10Gi
     ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
     ## Default: volume.alpha.kubernetes.io/storage-class: default
