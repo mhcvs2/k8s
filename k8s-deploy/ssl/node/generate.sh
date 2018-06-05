@@ -8,8 +8,8 @@ cp ./*.json ${des_dir}
 cd ${des_dir}
 
 nodes=(
- k8s-ceph5
- k8s-ceph6
+ k8s-n3
+ k8s-n4
 )
 
 # -------------------------------------------------------
