@@ -10,9 +10,9 @@
     copy:
       src: haproxy.conf
       dest: /etc/haproxy/haproxy.cfg
-    notify:
-    - Restart haproxy
-
-  handlers:
-  - name: Restart haproxy
-    shell: docker rm -f $(docker ps|grep haproxy|grep -v POD|awk '{print $1}')
+#    notify:
+#    - Restart haproxy
+#
+#  handlers:
+#  - name: Restart haproxy
+#    shell: docker rm -f $(docker ps|grep haproxy|grep -v POD|awk '{print $1}')
