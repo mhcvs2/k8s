@@ -11,7 +11,6 @@ cfssl gencert \
 -ca=etcd-ca.pem \
 -ca-key=etcd-ca-key.pem \
 -config=ca-config.json \
--hostname=127.0.0.1,${etcd_ips} \
 -profile=kubernetes \
 etcd-csr.json | cfssljson -bare etcd
 
