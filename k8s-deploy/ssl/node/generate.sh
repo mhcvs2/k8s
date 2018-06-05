@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
 des_dir=/etc/kubernetes/pki
-KUBE_APISERVER="https://gcloud.bst-1.cns.bstjpc.com:6443"
+KUBE_APISERVER="https://gcloud.srcb.com:6443"
 
 mkdir -p ${des_dir}
 cp ./*.json ${des_dir}
 cd ${des_dir}
 
 nodes=(
- k8s-master-1
- k8s-master-2
+ k8s-ceph5
+ k8s-ceph6
 )
 
 # -------------------------------------------------------

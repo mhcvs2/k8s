@@ -1,7 +1,8 @@
 ## GitLab CE image
 ## ref: https://hub.docker.com/r/gitlab/gitlab-ce/tags/
 ##
-image: registry.bst-1.cns.bstjpc.com:5000/gitlab/gitlab-ce:9.4.1-ce.0
+#image: registry.bst-1.cns.bstjpc.com:5000/gitlab/gitlab-ce:9.4.1-ce.0
+image: registry.bst-1.cns.bstjpc.com:5000/gitlab/gitlab-ce:9.4.1-ce-0605
 
 ## Specify a imagePullPolicy
 ## 'Always' if imageTag is 'latest', else set to 'IfNotPresent'
@@ -43,14 +44,14 @@ ingress:
   url: gitlab.gcloud.srcb.com
 
 proxy:
-  enabled: false
-#  env:
-#  - name: http_proxy
-#    value: http://109.105.4.17:8119
-#  - name: https_proxy
-#    value: http://109.105.4.17:8119
-#  - name: no_proxy
-#    value: 127.0.0.1,localhost,k8s-m1,gcloud.srcb.com,bst-1.cns.bstjpc.com,gitlab-postgresql,gitlab-redis,kubernetes.default,cluster.local,10.96.0.1,10.96.0.10
+  enabled: true
+  env:
+  - name: http_proxy
+    value: http://109.105.4.17:8119
+  - name: https_proxy
+    value: http://109.105.4.17:8119
+  - name: no_proxy
+    value: 127.0.0.1,localhost,k8s-m1,gcloud.srcb.com,bst-1.cns.bstjpc.com,gitlab-postgresql,gitlab-redis,kubernetes.default,cluster.local,10.96.0.1,10.96.0.10
 
 ## Configure external service ports
 ## ref: http://kubernetes.io/docs/user-guide/services/

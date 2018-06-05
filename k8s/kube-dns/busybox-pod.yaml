@@ -4,7 +4,7 @@ metadata:
   name: busybox4
   namespace: default
   annotations:
-    cmd: kubectl exec busybox -- nslookup kubernetes-dashboard.kube-system
+    cmd: kubectl exec busybox4 -- nslookup kubernetes-dashboard.kube-system
 spec:
   nodeSelector:
     kubernetes.io/hostname: k8s-m2
