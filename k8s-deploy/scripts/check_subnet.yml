@@ -4,6 +4,6 @@
   tasks:
 
   - name: check
-    shell: [ $(ifconfig flannel0 |grep -oP '(?<=inet ).*(?=.[0-9]  netmask 255)') = $(ifconfig docker0 |grep -oP '(?<=inet ).*(?=.[0-9]  netmask 255)') ] && echo yes
+    shell: [ "$(ifconfig flannel0 |grep -oP '(?<=inet ).*(?=.[0-9]  netmask 255)')" = "$(ifconfig docker0 |grep -oP '(?<=inet ).*(?=.[0-9]  netmask 255)')" ] && echo yes
 
 
