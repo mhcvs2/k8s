@@ -1,5 +1,5 @@
 ---
-- hosts: k8s-m2
+- hosts: 109.105.1.246
   gather_facts: no
   tasks:
   - name: Create kubelet service directory
@@ -14,13 +14,13 @@
     copy:
       src: 10-kubelet.conf
       dest: /etc/systemd/system/kubelet.service.d/10-kubelet.conf
-    notify:
-    - Restart kubelet service
-
-  handlers:
-  - name: Restart kubelet service
-    systemd:
-      name: kubelet
-      daemon_reload: yes
-      enabled: yes
-      state: restarted
+#    notify:
+#    - Restart kubelet service
+#
+#  handlers:
+#  - name: Restart kubelet service
+#    systemd:
+#      name: kubelet
+#      daemon_reload: yes
+#      enabled: yes
+#      state: restarted

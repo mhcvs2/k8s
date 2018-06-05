@@ -1,5 +1,5 @@
 ---
-- hosts: k8s-nodes-only
+- hosts: 109.105.1.180
   gather_facts: no
   tasks:
   - name: Create kubelet service directory
@@ -17,10 +17,10 @@
     notify:
     - Restart kubelet service
 
-  handlers:
-  - name: Restart kubelet service
-    systemd:
-      name: kubelet
-      daemon_reload: yes
-      enabled: yes
-      state: restarted
+#  handlers:
+#  - name: Restart kubelet service
+#    systemd:
+#      name: kubelet
+#      daemon_reload: yes
+#      enabled: yes
+#      state: restarted
