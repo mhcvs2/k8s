@@ -22,5 +22,5 @@ resources: {}
 nodeSelector:
   key: gpu_type
 
-type: k20m
+type: k80
 
