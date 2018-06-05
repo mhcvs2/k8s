@@ -9,7 +9,7 @@ metadata:
     addonmanager.kubernetes.io/mode: Reconcile
 spec:
   selector:
-    k8s-app: kubernetes-dashboard
+    k8s-app: kubernetes-dashboard2
   ports:
   - port: 443
     targetPort: 8443
