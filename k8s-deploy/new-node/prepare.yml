@@ -1,5 +1,5 @@
 ---
-- hosts: k8s-new-m
+- hosts: new-n
   gather_facts: no
   vars_files:
     - var.yaml
