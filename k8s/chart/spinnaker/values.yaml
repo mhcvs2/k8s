@@ -7,7 +7,7 @@
 accounts:
 - name: dockerhub
   address: https://registry.bst-1.cns.bstjpc.com:5000
-  insecureRegistry: false
+  insecureRegistry: true
   repositories:
     - library/ubuntu
 # - name: gcr

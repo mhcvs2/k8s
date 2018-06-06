@@ -20,7 +20,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - editor.swagger.gcloud.srcb.com
+    - swagger.gcloud.srcb.com
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

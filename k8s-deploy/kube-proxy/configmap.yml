@@ -49,7 +49,7 @@ data:
     clusters:
     - cluster:
         certificate-authority: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-        server: https://gcloud.bst-1.cns.bstjpc.com:6443
+        server: https://gcloud.srcb.com:6443
       name: default
     contexts:
     - context:
