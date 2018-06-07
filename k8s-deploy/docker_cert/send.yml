@@ -1,0 +1,31 @@
+---
+- hosts: k8s-nodes
+  gather_facts: no
+  tasks:
+  - name: Create directory1
+    file:
+      path: /etc/docker/certs.d/registry.bst-1.cns.bstjpc.com:5000
+      state: directory
+  - name: Create directory2
+    file:
+      path: /etc/docker/certs.d/registry.gcloud.srcb.com
+      state: directory
+  - name: Create directory3
+    file:
+      path: /etc/docker/certs.d/registry.gcloud.srcb.com:443
+      state: directory
+  - name: Send file1
+    copy:
+      src: registry.bst-1.cns.bstjpc.com.crt
+      dest: /etc/docker/certs.d/registry.bst-1.cns.bstjpc.com:5000/domain.crt
+  - name: Send file2
+    copy:
+      src: registry.gcloud.srcb.com.crt
+      dest: /etc/docker/certs.d/registry.gcloud.srcb.com/registry.crt
+  - name: Send file3
+    copy:
+      src: registry.bst-1.cns.bstjpc.com.crt
+      dest: /etc/docker/certs.d/registry.gcloud.srcb.com:443/registry.crt
+
+
+
