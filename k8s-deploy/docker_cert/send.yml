@@ -24,7 +24,7 @@
       dest: /etc/docker/certs.d/registry.gcloud.srcb.com/registry.crt
   - name: Send file3
     copy:
-      src: registry.bst-1.cns.bstjpc.com.crt
+      src: registry.gcloud.srcb.com.crt
       dest: /etc/docker/certs.d/registry.gcloud.srcb.com:443/registry.crt
 
 
