@@ -72,6 +72,25 @@ spec:
         kubernetes.io/cluster-service: "true"
     spec:
       serviceAccountName: elasticsearch-logging
+#      nodeSelector:
+#        elasticsearch: "true"
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 5
+            preference:
+              matchExpressions:
+              - key: role
+                operator: In
+                values:
+                - master
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: type
+                operator: In
+                values:
+                - physics
       containers:
       - image: registry.bst-1.cns.bstjpc.com:5000/k8s.gcr.io/elasticsearch:v5.6.4
         name: elasticsearch-logging
@@ -110,7 +129,7 @@ spec:
       name: elasticsearch-logging
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "tmp-ceph-storage"
+      storageClassName: "cephfs-flex-volume"
       resources:
         requests:
           storage: 1Gi
