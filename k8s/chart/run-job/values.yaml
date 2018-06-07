@@ -6,6 +6,7 @@ image: registry.gcloud.srcb.com:443/mhc-image:test002
 
 labName: Intelligent Data Lab
 userName: hongchao.ma
+priority: p1
 
 cpu: "500m"
 memory: "1Gi"

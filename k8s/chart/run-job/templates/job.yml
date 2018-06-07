@@ -13,6 +13,7 @@ spec:
   activeDeadlineSeconds: {{ .Values.timeout }}
   template:
     spec:
+      priorityClassName: {{ .Values.priority }}
       restartPolicy: OnFailure
       containers:
       - name: run-job
