@@ -1,9 +1,19 @@
 apiVersion: v1
 entries:
+  chart-test:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-06-08T17:33:42.903836101+08:00
+    description: A Helm chart for Kubernetes
+    digest: ade391729171dbed3f199fa3879f34fb21883f04d8b9bce30bbc56c2b5031018
+    name: chart-test
+    urls:
+    - http://minio.gcloud.srcb.com/charts/chart-test-0.1.0.tgz
+    version: 0.1.0
   commit-job:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-06-06T12:06:25.587242445Z
+    created: 2018-06-08T17:33:42.904070518+08:00
     description: A Helm chart for Kubernetes
     digest: 834ccc308d1f922e275dcb20c52e685220ab4333cf8fa61708d1e3c0dce48f74
     name: commit-job
@@ -13,7 +23,7 @@ entries:
   dev-situation:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-06-06T12:06:25.587949102Z
+    created: 2018-06-08T17:33:42.904275976+08:00
     description: A Helm chart for Kubernetes
     digest: 6239d246c8bff780c40c71fe2a6aca7f97a51dfc0cb4376f6cbb8610c488bd9d
     name: dev-situation
@@ -23,9 +33,9 @@ entries:
   docker-registry:
   - apiVersion: v1
     appVersion: 2.6.2
-    created: 2018-06-06T12:06:25.59029733Z
+    created: 2018-06-08T17:33:42.905051101+08:00
     description: A Helm chart for Docker Registry
-    digest: 21b5e3ea131a30559216ba9caf79544b58024e1dc63cb2edd577288434656f7a
+    digest: efb18ee089537ec2afbab98c7e7b005064d384be668deb1d3e5f27a4cab40b07
     home: https://hub.docker.com/_/registry/
     icon: https://hub.docker.com/public/images/logos/mini-logo.svg
     maintainers:
@@ -39,13 +49,37 @@ entries:
     urls:
     - http://minio.gcloud.srcb.com/charts/docker-registry-1.1.1.tgz
     version: 1.1.1
+  gitlab-ce:
+  - created: 2018-06-08T17:33:42.906226934+08:00
+    deprecated: true
+    description: GitLab Community Edition
+    digest: d44046de6ed9ae60ccc437ae0117b0d9fd05022e9a52797499a9974e95c1cf46
+    home: https://about.gitlab.com
+    icon: https://gitlab.com/uploads/group/avatar/6543/gitlab-logo-square.png
+    keywords:
+    - git
+    - ci
+    - deploy
+    - issue tracker
+    - code review
+    - wiki
+    maintainers:
+    - email: gtaylor@gc-taylor.com
+      name: Greg Taylor
+    name: gitlab-ce
+    sources:
+    - https://hub.docker.com/r/gitlab/gitlab-ce/
+    - https://docs.gitlab.com/omnibus/
+    urls:
+    - http://minio.gcloud.srcb.com/charts/gitlab-ce-0.2.1.tgz
+    version: 0.2.1
   jenkins:
   - appVersion: "2.107"
-    created: 2018-06-06T12:06:25.592838468Z
+    created: 2018-06-08T17:33:42.907044726+08:00
     description: Open source continuous integration server. It supports multiple SCM
       tools including CVS, Subversion and Git. It can execute Apache Ant and Apache
       Maven-based projects as well as arbitrary scripts.
-    digest: 64796d3f51c7e72c41fe1891ed63bcdee9e3eae7160b9c690d88b83cf53ddb64
+    digest: 3bcfd888599dc3e98c521deee38b47ddbc0efd6bdef71796c757c85e5b20e501
     home: https://jenkins.io/
     icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
     maintainers:
@@ -63,10 +97,10 @@ entries:
   minio:
   - apiVersion: v1
     appVersion: RELEASE.2018-03-16T22-52-12Z
-    created: 2018-06-06T12:06:25.595026237Z
+    created: 2018-06-08T17:33:42.907752559+08:00
     description: Distributed object storage server built for cloud applications and
       devops.
-    digest: 76a08c46c5566279c43cfae1586a9b4efdc3a0732331172a32f72d45ca78d37a
+    digest: 219e8b7e655bf2514b51e0daa62fb11294726915868c49a5fe0c8ace3bd69de1
     home: https://minio.io
     icon: https://www.minio.io/img/logo_160x160.png
     keywords:
@@ -84,9 +118,48 @@ entries:
     urls:
     - http://minio.gcloud.srcb.com/charts/minio-1.1.1.tgz
     version: 1.1.1
+  monocular:
+  - apiVersion: v1
+    appVersion: v0.6.2
+    created: 2018-06-08T17:33:42.908555518+08:00
+    description: Monocular is a search and discovery front end for Helm Charts Repositories.
+    digest: 2dd68fabebe1ce152c192875fc76ce4109489215e29805defea6e42d92587388
+    home: https://github.com/kubernetes-helm/monocular
+    maintainers:
+    - email: adnan@bitnami.com
+      name: prydonius
+    name: monocular
+    sources:
+    - https://github.com/kubernetes-helm/monocular
+    urls:
+    - http://minio.gcloud.srcb.com/charts/monocular-0.5.1.tgz
+    version: 0.5.1
+  mysql:
+  - appVersion: 5.7.14
+    created: 2018-06-08T17:33:42.909116309+08:00
+    description: Fast, reliable, scalable, and easy to use open-source relational
+      database system.
+    digest: 8c7441be70ab4da3135910ffee606f7c4d4c1e671e27c72be5a387dcee2ef26a
+    engine: gotpl
+    home: https://www.mysql.com/
+    icon: https://www.mysql.com/common/logos/logo-mysql-170x115.png
+    keywords:
+    - mysql
+    - database
+    - sql
+    maintainers:
+    - email: viglesias@google.com
+      name: Vic Iglesias
+    name: mysql
+    sources:
+    - https://github.com/kubernetes/charts
+    - https://github.com/docker-library/mysql
+    urls:
+    - http://minio.gcloud.srcb.com/charts/mysql-0.6.0.tgz
+    version: 0.6.0
   nginx-ingress:
   - appVersion: 0.12.0
-    created: 2018-06-06T12:06:25.597624478Z
+    created: 2018-06-08T17:33:42.91044181+08:00
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
     digest: 3154f7a533e480b53dda1ce90fd21354eab56a314601b47b15f845e4684ff74e
@@ -112,16 +185,26 @@ entries:
   nvidia-device-plugin:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-06-06T12:06:25.598337358Z
+    created: 2018-06-08T17:33:42.910741101+08:00
     description: A Helm chart for Kubernetes
-    digest: 5209b69663f22c40942a8f15e78bc38121d8d3103186b6f4c0e4e1a67ec2979e
+    digest: ab8e4d13c4f7745b71c69b4bddc0c3befff99ebca3c3871bea1e1076a8b561da
     name: nvidia-device-plugin
     urls:
     - http://minio.gcloud.srcb.com/charts/nvidia-device-plugin-0.1.0.tgz
     version: 0.1.0
+  registry-ui:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-06-08T17:33:42.91136881+08:00
+    description: A Helm chart for Kubernetes
+    digest: 58121e40510bc0ba768ba5962df7c80f9c44f7a0510d1c611db6870e8b2c9472
+    name: registry-ui
+    urls:
+    - http://minio.gcloud.srcb.com/charts/registry-ui-0.1.0.tgz
+    version: 0.1.0
   rook:
   - apiVersion: v1
-    created: 2018-06-06T12:06:25.599260469Z
+    created: 2018-06-08T17:33:42.91167456+08:00
     description: File, Block, and Object Storage Services for your Cloud-Native Environment
     digest: 58d376d0408f8bc5df28d0c865e96525b898856824cb46d217ba87c8b3232c40
     icon: https://rook.io/images/logos/rook/rook-logo-color-on-transparent.png
@@ -131,13 +214,23 @@ entries:
     urls:
     - http://minio.gcloud.srcb.com/charts/rook-0.0.1.tgz
     version: 0.0.1
+  run-job:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-06-08T17:33:42.911916601+08:00
+    description: A Helm chart for Kubernetes
+    digest: cb057ad01c5a947eeb8fae501f57bfca17b78e27eb5db2dadc641cef666f656c
+    name: run-job
+    urls:
+    - http://minio.gcloud.srcb.com/charts/run-job-0.1.0.tgz
+    version: 0.1.0
   spinnaker:
   - apiVersion: v1
     appVersion: 1.6.0
-    created: 2018-06-06T12:06:25.607986519Z
+    created: 2018-06-08T17:33:42.914683393+08:00
     description: Open source, multi-cloud continuous delivery platform for releasing
       software changes with high velocity and confidence.
-    digest: 85a273a2eddb5746f2b624d7d735c1bfd85d92db141e260fa6fa42401278dfba
+    digest: b98a467bbd034d1f54c7036719f8372a3fa3021f64d51c01c8b415b6047be6e2
     home: http://spinnaker.io/
     icon: https://pbs.twimg.com/profile_images/669205226994319362/O7OjwPrh_400x400.png
     maintainers:
@@ -153,21 +246,41 @@ entries:
   srcb-lab:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-06-06T12:06:25.608793184Z
+    created: 2018-06-08T17:33:42.914917101+08:00
     description: A Helm chart for Kubernetes
     digest: 1531977596569e5d814448c0e5dd9e1ea19545645ad4f7e492c22712390aeea7
     name: srcb-lab
     urls:
     - http://minio.gcloud.srcb.com/charts/srcb-lab-0.1.0.tgz
     version: 0.1.0
+  swagger:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-06-08T17:33:42.915144893+08:00
+    description: A Helm chart for Kubernetes
+    digest: e24d1aafcd21cc4379efbf937d10d87c6facdf11390316a7fb443ff2398a532f
+    name: swagger
+    urls:
+    - http://minio.gcloud.srcb.com/charts/swagger-0.1.0.tgz
+    version: 0.1.0
+  test-pv:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-06-08T17:33:42.915319726+08:00
+    description: A Helm chart for Kubernetes
+    digest: 7f1e6f1c08daaf45c5bdf6de6f09b26c7ea0368a78ed885ae2d7060d82e8beb3
+    name: test-pv
+    urls:
+    - http://minio.gcloud.srcb.com/charts/test-pv-0.1.0.tgz
+    version: 0.1.0
   user-data:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-06-06T12:06:25.609337323Z
+    created: 2018-06-08T17:33:42.915488476+08:00
     description: A Helm chart for Kubernetes
     digest: 652e0383fbe3d29fef713ade94d889b0903925437d9e340ef01edc4d4aefdc10
     name: user-data
     urls:
     - http://minio.gcloud.srcb.com/charts/user-data-0.1.0.tgz
     version: 0.1.0
-generated: 2018-06-06T12:06:25.586275953Z
+generated: 2018-06-08T17:33:42.903425559+08:00

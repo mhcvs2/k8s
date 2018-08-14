@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-common
+  namespace: spinnaker
+spec:
+  storageClassName: cephfs-flex-volume
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

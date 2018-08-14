@@ -9,9 +9,9 @@ spec:
   capacity:
     storage: 1Gi
   accessModes:
-#  - ReadOnlyMany
+  - ReadOnlyMany
 #  - ReadWriteOnce
-  - ReadWriteMany
+#  - ReadWriteMany
 #  claimRef:
 #    kind: PersistentVolumeClaim
 #    name: pvc-cephfs-prometheus
@@ -19,9 +19,13 @@ spec:
   flexVolume:
     driver: srcb/cephfs
     options:
-      share: '/'
+      monitors: ceph-mon1:6789,ceph-mon2:6789,ceph-mon3:6789,ceph-mon4:6789,ceph-mon5:6789
       authid: 'admin'
-      keyring: 'AQB3bvpapKs+LRAAs1PH+Mo4loOcAvTDfHg3vg=='
+      mds: 'Data_Intelligence_Labfs'
+      keyring: 'AQDeUgJbJgwNMhAAnzeW5LwQSwqMyWs7Zvl5cQ=='
+      rights: 'rw'
+      mount-type: 'ceph-fuse'
+      share: '/'
   # Comment out the line above an      share: '/'
   # from a secret on the namespace
   # secretRef:

@@ -1,0 +1,7 @@
+
+.idea/
+
+*.tgz
+
+.jenkins/helm
+.jenkins/mc

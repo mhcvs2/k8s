@@ -5,14 +5,21 @@ metadata:
   namespace: spinnaker
 spec:
   rules:
-  - host: jenkins.spinnaker.gcloud.bst-1.cns.bstjpc.com
+  - host: jenkins.spinnaker.gcloud.srcb.com
     http:
       paths:
       - path: /
         backend:
           serviceName: spinnaker-jenkins
           servicePort: 8080
-  - host: spinnaker.gcloud.bst-1.cns.bstjpc.com
+  - host: jenkins.gcloud.srcb.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jenkins
+          servicePort: 8080
+  - host: spinnaker.gcloud.srcb.com
     http:
       paths:
       - path: /

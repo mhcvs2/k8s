@@ -54,7 +54,8 @@ spec:
       - --runtime-config=settings.k8s.io/v1alpha1=true,scheduling.k8s.io/v1alpha1=true
       - --feature-gates=BlockVolume=true,PodPriority=true
       - --enable-admission-plugins=Priority,PodPreset,Initializers,NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,ResourceQuota
-      - --apiserver-count=5
+      - --apiserver-count=4
+      - --endpoint-reconciler-type=lease
     livenessProbe:
       failureThreshold: 8
       httpGet:

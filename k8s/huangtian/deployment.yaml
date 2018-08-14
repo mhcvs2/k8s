@@ -1,0 +1,23 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: huangtian
+  labels:
+    k8s-app: huangtian
+spec:
+  selector:
+    matchLabels:
+      k8s-app: huangtian
+  template:
+    metadata:
+      labels:
+        k8s-app: huangtian
+    spec:
+      containers:
+      - name: huangtian
+        image: registry.bst-1.cns.bstjpc.com:5000/cloudpi/huangtian:180619-162940
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      nodeSelector:
+        type: triton

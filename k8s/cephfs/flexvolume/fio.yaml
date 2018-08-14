@@ -13,7 +13,7 @@ spec:
         app: cephfs-test1
     spec:
       nodeSelector:
-        kubernetes.io/hostname: k8s-n1
+        kubernetes.io/hostname: k8s-n2
       containers:
       - image: registry.bst-1.cns.bstjpc.com:5000/clusterhq/fio-tool:latest
         name: fio
@@ -24,6 +24,7 @@ spec:
         volumeMounts:
         - name: fio-test-pv
           mountPath: /data
+          readOnly: true
       volumes:
       - name: fio-test-pv
 #        emptyDir: {}

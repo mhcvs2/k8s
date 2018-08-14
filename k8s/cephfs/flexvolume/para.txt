@@ -4,13 +4,17 @@ domount
 {
   "authid": "admin",
   "keyring": "AQB3bvpapKs+LRAAs1PH+Mo4loOcAvTDfHg3vg==",
-  "kubernetes.io/fsType": "",
+  "kubernetes.io/fsType": "",                                       //flexVolume.fsType
   "kubernetes.io/pod.name": "cephfs-test1-c6ffdfdf6-btnjk",
   "kubernetes.io/pod.namespace": "default",
   "kubernetes.io/pod.uid": "0e44ad75-5bee-11e8-a160-90b8d042b91a",
   "kubernetes.io/pvOrVolumeName": "pv-cephfs-test-1",
-  "kubernetes.io/readwrite": "rw",
+  "kubernetes.io/readwrite": "rw",                                // flexVolume.readOnly
   "kubernetes.io/serviceAccount.name": "default",
   "share": "/"
 }
 --------------------------------------------------------------------
+"kubernetes.io/secret/<key name>": "<key value>",
+        "kubernetes.io/secret/<another key name>": "<another key value>"     flexVolume.secretRef
+
+        https://docs.openshift.com/container-platform/3.7/install_config/persistent_storage/persistent_storage_flex_volume.html

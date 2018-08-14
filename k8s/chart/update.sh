@@ -44,5 +44,5 @@ main(){
 }
 
 main
-helm repo update
+#helm repo update
 
