@@ -1,10 +1,12 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: intelligent-data-lab
-  namespace: intelligent-data-lab
+  name: intelligence-innovation-lab
+  namespace: intelligence-innovation-lab
 spec:
   hard:
-    limits.cpu: "100"
-    limits.memory: 1000Gi
+    requests.cpu: "100"
+    requests.memory: 1000Gi
     requests.nvidia.com/gpu-k20m: "4"
+    requests.nvidia.com/gpu-k80: "10"
+    requests.nvidia.com/gpu-p40: "0"

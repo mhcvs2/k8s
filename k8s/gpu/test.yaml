@@ -7,7 +7,7 @@ metadata:
     chart: dev-situation-0.1.0
     release: test9
     heritage: Tiller
-  namespace: intelligence-service-lab
+  namespace: machine-learning-lab
 spec:
   replicas: 1
   selector:
@@ -51,7 +51,7 @@ spec:
       volumes:
       - name: ssh-key
         configMap:
-          name: hongchao-ma
+          name: sl1015-liu
           items:
           - key: ssh_public_key
             path: authorized_keys
@@ -66,7 +66,7 @@ spec:
             keyring: AQDeUgJbJgwNMhAAnzeW5LwQSwqMyWs7Zvl5cQ==
       - name: common-data-pv
         persistentVolumeClaim:
-          claimName: intelligence-service-lab-common
+          claimName: machine-learning-lab-common
       - hostPath:
           path: /usr/lib/nvidia-384/bin
         name: bin

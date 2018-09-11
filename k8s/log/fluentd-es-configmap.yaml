@@ -139,7 +139,7 @@ data:
       remove_tag_prefix raw
       message log
       stream stream
-      multiline_flush_interval 5
+      multiline_flush_interval 60
       max_bytes 500000
       max_lines 1000
     </match>
@@ -204,7 +204,7 @@ data:
       @id kubelet.log
       @type tail
       format multiline
-      multiline_flush_interval 5s
+      multiline_flush_interval 60s
       format_firstline /^\w\d{4}/
       format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
       time_format %m%d %H:%M:%S.%N
@@ -219,7 +219,7 @@ data:
       @id kube-proxy.log
       @type tail
       format multiline
-      multiline_flush_interval 5s
+      multiline_flush_interval 60s
       format_firstline /^\w\d{4}/
       format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
       time_format %m%d %H:%M:%S.%N
@@ -234,7 +234,7 @@ data:
       @id kube-apiserver.log
       @type tail
       format multiline
-      multiline_flush_interval 5s
+      multiline_flush_interval 60s
       format_firstline /^\w\d{4}/
       format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
       time_format %m%d %H:%M:%S.%N
@@ -249,7 +249,7 @@ data:
       @id kube-controller-manager.log
       @type tail
       format multiline
-      multiline_flush_interval 5s
+      multiline_flush_interval 60s
       format_firstline /^\w\d{4}/
       format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
       time_format %m%d %H:%M:%S.%N
@@ -264,7 +264,7 @@ data:
       @id kube-scheduler.log
       @type tail
       format multiline
-      multiline_flush_interval 5s
+      multiline_flush_interval 60s
       format_firstline /^\w\d{4}/
       format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
       time_format %m%d %H:%M:%S.%N
@@ -279,7 +279,7 @@ data:
       @id rescheduler.log
       @type tail
       format multiline
-      multiline_flush_interval 5s
+      multiline_flush_interval 60s
       format_firstline /^\w\d{4}/
       format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
       time_format %m%d %H:%M:%S.%N
@@ -294,7 +294,7 @@ data:
       @id glbc.log
       @type tail
       format multiline
-      multiline_flush_interval 5s
+      multiline_flush_interval 60s
       format_firstline /^\w\d{4}/
       format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
       time_format %m%d %H:%M:%S.%N
@@ -309,7 +309,7 @@ data:
       @id cluster-autoscaler.log
       @type tail
       format multiline
-      multiline_flush_interval 5s
+      multiline_flush_interval 60s
       format_firstline /^\w\d{4}/
       format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
       time_format %m%d %H:%M:%S.%N
@@ -429,11 +429,11 @@ data:
         flush_mode interval
         retry_type exponential_backoff
         flush_thread_count 2
-        flush_interval 5s
+        flush_interval 60s
         retry_forever
         retry_max_interval 30
-        chunk_limit_size 2M
-        queue_limit_length 8
+        chunk_limit_size 10M
+        queue_limit_length 256
         overflow_action block
       </buffer>
     </match>

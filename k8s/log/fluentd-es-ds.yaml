@@ -76,16 +76,16 @@ spec:
       serviceAccountName: fluentd-es
       containers:
       - name: fluentd-es
-        image: registry.bst-1.cns.bstjpc.com:5000/k8s.gcr.io/fluentd-elasticsearch:v2.0.4
+        image: registry.bst-1.cns.bstjpc.com:5000/k8s.gcr.io/fluentd-elasticsearch:v2.3.1
         env:
         - name: FLUENTD_ARGS
           value: --no-supervisor -q
         resources:
           limits:
-            memory: 500Mi
+            memory: 4Gi
           requests:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 2
+            memory: 4Gi
         volumeMounts:
         - name: varlog
           mountPath: /var/log
@@ -103,7 +103,7 @@ spec:
           path: /var/log
       - name: varlibdockercontainers
         hostPath:
-          path: /data/lib/docker/containers
+          path: /var/lib/docker/containers
       - name: config-volume
         configMap:
           name: fluentd-es-config-v0.1.4

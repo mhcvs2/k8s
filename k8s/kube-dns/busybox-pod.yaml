@@ -6,8 +6,8 @@ metadata:
   annotations:
     cmd: kubectl exec busybox4 -- nslookup kubernetes-dashboard.kube-system
 spec:
-  nodeSelector:
-    kubernetes.io/hostname: k8s-m2
+#  nodeSelector:
+#    kubernetes.io/hostname: k8s-m2
   containers:
   - name: busybox
     image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/busybox
