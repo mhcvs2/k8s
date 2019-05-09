@@ -4,7 +4,7 @@ metadata:
   name: system-ingress
   namespace: kube-system
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: "traefik"
     nginx.ingress.kubernetes.io/secure-backends: "true"
 spec:
   tls:

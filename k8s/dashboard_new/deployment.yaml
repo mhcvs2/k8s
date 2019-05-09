@@ -22,15 +22,16 @@ spec:
     spec:
       containers:
       - name: kubernetes-dashboard
-#        image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.8.0
-        image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/kubernetes-dashboard-amd64:v1.8.3
+        image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.8.3
+#        image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/kubernetes-dashboard-amd64:v1.8.3
+#        image: hub.kce.ksyun.com/kbdp/kubernetes-dashboard-amd64:v1.8.3
         resources:
           limits:
             cpu: 2
             memory: 4Gi
           requests:
-            cpu: 1
-            memory: 2Gi
+            cpu: 100m
+            memory: 200Mi
         ports:
         - containerPort: 8443
           protocol: TCP
@@ -58,7 +59,7 @@ spec:
       tolerations:
       - key: "CriticalAddonsOnly"
         operator: "Exists"
-      nodeSelector:
-        role: master
+#      nodeSelector:
+#        role: master
 #        kubernetes.io/hostname: ogs-gpu02
 #        kubernetes.io/hostname: 7dd70763-c067-6232-a90b-d6c1a9eef026
