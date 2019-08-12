@@ -13,9 +13,12 @@ spec:
         k8s-app: default-http-backend
     spec:
       terminationGracePeriodSeconds: 60
+      imagePullSecrets:
+        - name: ksyunregistrykey
       containers:
       - name: default-http-backend
-        image: gcr.io/google_containers/defaultbackend:1.0
+#        image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/defaultbackend:1.0
+        image: hub.kce.ksyun.com/kbdp/defaultbackend:1.0
         livenessProbe:
           httpGet:
             path: /healthz

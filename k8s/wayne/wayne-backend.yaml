@@ -1,0 +1,127 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: wayne-backend
+  name: wayne-backend
+  namespace: default
+data:
+  app.conf: |-
+    appname = wayne
+    httpport = 8080
+    runmode = prod
+    autorender = false
+    copyrequestbody = true
+    EnableDocs = true
+    EnableAdmin = true
+    StaticDir = public:static
+
+    ShowSql = false
+
+    EnableDBLogin = true
+
+    RsaPrivateKey = "./apikey/rsa-private.pem"
+    RsaPublicKey = "./apikey/rsa-public.pem"
+
+    TokenLifeTime=86400
+
+    AppLabelKey= wayne-app
+    NamespaceLabelKey = wayne-ns
+    PodAnnotationControllerKindLabelKey = wayne.cloud/controller-kind
+
+    DBName = "wayne"
+    DBTns = "tcp(mysql-wayne:3306)"
+    DBUser = "root"
+    DBPasswd = "root"
+    DBConnTTL = 30
+
+    appKey = "860af247a91a19b2368d6425797921c6"
+
+    DemoGroupId = "1"
+    DemoNamespaceId = "1"
+
+    LogLevel = "4"
+    SentryEnable = false
+    SentryDSN = ""
+    SentryLogLevel = "4"
+
+    EnableRobin = false
+
+    EnableApiKeys = true
+
+    BusEnable = true
+    BusRabbitMQURL = "amqp://guest:guest@rabbitmq-wayne:5672"
+
+    EnableWebhook = true
+    WebhookClientTimeout = 10
+    WebhookClientWindowSize = 16
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wayne-backend
+  name: wayne-backend
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wayne-backend
+  template:
+    metadata:
+      labels:
+        app: wayne-backend
+    spec:
+      volumes:
+      - name: config
+        configMap:
+          name: wayne-backend
+      containers:
+      - name: wayne
+        image: '360cloud/wayne-backend:latest'
+        command:
+        - /opt/wayne/backend
+        - apiserver
+        env:
+        - name: GOPATH  # app.conf runmode = dev must set GOPATH
+          value: /go
+        resources:
+          limits:
+            cpu: '0.5'
+            memory: 1Gi
+          requests:
+            cpu: '0.5'
+            memory: 1Gi
+        volumeMounts:
+        - name: config
+          mountPath: /opt/wayne/conf/
+        readinessProbe:
+          httpGet:
+            path: healthz
+            port: 8080
+          timeoutSeconds: 1
+          periodSeconds: 10
+          failureThreshold: 3
+        imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wayne-backend
+  name: wayne-backend
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 32001
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: wayne-backend

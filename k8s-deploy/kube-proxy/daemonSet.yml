@@ -29,7 +29,7 @@ spec:
       serviceAccountName: kube-proxy
       containers:
       - name: kube-proxy
-        image: registry.bst-1.cns.bstjpc.com:5000/k8s.gcr.io/kube-proxy-amd64:v1.10.1
+        image: k8s.gcr.io/kube-proxy-amd64:v1.10.1
         command:
         - /usr/local/bin/kube-proxy
         - --config=/var/lib/kube-proxy/config.conf

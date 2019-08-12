@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: fio-test
+  namespace: kdg53a45b2377a29966598fca2208bd740ddefault
+  labels:
+    app: fio-test
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: fio-test-csi-1
+    spec:
+      imagePullSecrets:
+        - name: ksyunregistrykey
+      containers:
+      - image: hub.kce.ksyun.com/kbdp/fio-tool:latest
+        name: fio
+        command:
+        - bash
+        - -c
+        - "tail -f /dev/null"
+        resources:
+          limits:
+            cpu: 300m
+            memory: 500Mi
+
+
