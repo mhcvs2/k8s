@@ -1,0 +1,15 @@
+cat <<EOF | kubectl create -f -
+apiVersion: kubeovn.io/v1
+kind: Subnet
+metadata:
+  name: ls1
+spec:
+  protocol: IPv4
+  cidrBlock: 10.66.0.0/16
+  excludeIps:
+  - 10.66.0.1..10.66.0.10   # 保留ip
+  gateway: 10.66.0.1
+  namespaces:
+  - ls1
+  private: true     # 是否私有, 和其他子网是否通
+EOF

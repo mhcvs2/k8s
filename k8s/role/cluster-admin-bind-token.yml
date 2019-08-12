@@ -8,5 +8,8 @@ roleRef:
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: local-storage-admin
-  namespace: provisioner
+  name: default
+  namespace: kube-system
+- kind: ServiceAccount
+  name: kubernetes-dashboard
+  namespace: kube-system
