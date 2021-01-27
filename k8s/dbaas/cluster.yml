@@ -1,0 +1,60 @@
+apiVersion: dragon.ksyun.com/v1alpha1
+kind: Cluster
+metadata:
+  name: test1
+  namespace: tenant-id
+  label:
+    datastore: mysql
+    datastore-version: mysql-5.7
+spec:
+  datastore-version: mysql-5.7
+  members: 3
+  schedulerName: dragon-scheduler
+  resourcesTemplate:
+    limits:
+      cpu: 3000m
+      memory: 2000Mi
+  PersistentVolumeClaimTemplate:
+    spec:
+      storageClassName: nfs-storage
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 1Gi
+status:
+  Conditions:
+    - Type: restore/creation/replication/backup
+      Status: True
+      LastTransitionTime: 2021-01-02
+      Reason: "some"
+      Message: "some"
+  compute:
+    kind: Statefulset
+    name: 123
+  network:
+    kind: Service
+    name: 122
+    clusterIP: 1.2.3.4
+    nodePort: 10123
+  pods:
+    "1":
+      id: "1"
+      ip: 1.2.3.4
+      podName: p1
+      pvcName: pvc1
+      state: Up
+      node: 10.1.1.2
+      image:
+        db: mysql:5.7
+        agent: dragon-mysql:v0.1
+    "2":
+      id: "1"
+      ip: 1.2.3.4
+      podName: p1
+      pvcName: pvc2
+      state: Up
+      node: 10.1.1.2
+      image:
+        db: mysql:5.7
+        agent: dragon-mysql:v0.1

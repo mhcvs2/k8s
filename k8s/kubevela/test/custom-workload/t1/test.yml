@@ -1,0 +1,10 @@
+apiVersion: core.oam.dev/v1alpha2
+kind: Application
+metadata:
+  name: t11
+spec:
+  components:
+    - name: t11
+      type: mhctask
+      settings:
+        image: rds.registry.ksyun.com/common/net-tools:latest

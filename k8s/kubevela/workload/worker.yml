@@ -1,0 +1,60 @@
+apiVersion: core.oam.dev/v1alpha2
+kind: WorkloadDefinition
+metadata:
+  annotations:
+    definition.oam.dev/description: Describes long-running, scalable, containerized
+      services that running at backend. They do NOT have network endpoint to receive
+      external network traffic.
+    meta.helm.sh/release-name: kubevela
+    meta.helm.sh/release-namespace: vela-system
+  creationTimestamp: "2021-01-26T07:15:25Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  name: worker
+  resourceVersion: "39517"
+  selfLink: /apis/core.oam.dev/v1alpha2/workloaddefinitions/worker
+  uid: 1395423f-1be6-4350-b57d-0441b8277e0a
+spec:
+  definitionRef:
+    name: deployments.apps
+  extension:
+    template: |
+      output: {
+      	apiVersion: "apps/v1"
+      	kind:       "Deployment"
+      	spec: {
+      		selector: matchLabels: {
+      			"app.oam.dev/component": context.name
+      		}
+
+      		template: {
+      			metadata: labels: {
+      				"app.oam.dev/component": context.name
+      			}
+
+      			spec: {
+      				containers: [{
+      					name:  context.name
+      					image: parameter.image
+
+      					if parameter["cmd"] != _|_ {
+      						command: parameter.cmd
+      					}
+      				}]
+      			}
+      		}
+
+      		selector:
+      			matchLabels:
+      				"app.oam.dev/component": context.name
+      	}
+      }
+
+      parameter: {
+      	// +usage=Which image would you like to use for your service
+      	// +short=i
+      	image: string
+      	// +usage=Commands to run in the container
+      	cmd?: [...string]
+      }

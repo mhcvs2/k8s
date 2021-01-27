@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-use-pvc
+spec:
+  containers:
+  - name: pod-use-pvc
+    image: rds.registry.ksyun.com/common/net-tools:latest
+    command:
+      - tail
+      - -f
+      - /dev/null
+    volumeMounts:
+    - name: pvc-test
+      mountPath: "/pv-data"
+      subPath: mysql
+  volumes:
+  - name: pvc-test
+    persistentVolumeClaim:
+      claimName: pvc-test

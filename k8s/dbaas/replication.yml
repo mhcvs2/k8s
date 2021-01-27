@@ -1,0 +1,37 @@
+apiVersion: dragon.ksyun.com/v1alpha1
+kind: Replication
+metadata:
+  name: d381cbab-eae4-4293-814c-08ba94d7a11c
+  namespace: tenant-id
+  label:
+    dragon.ksyun.com/cluster: cluster-name
+spec:
+  primary:
+    - podName: p1
+      address: 1.2.3.4
+      port: 3306
+  secondary:
+    - podName: p2
+      address: 1.2.3.5
+      port: 3306
+    - podName: p3
+      address: 1.2.3.6
+      port: 3306
+status:
+  primary:
+    - podName: p1
+      address: 1.2.3.4
+      port: 3306
+      active: true
+      msg: "some"
+  secondary:
+    - podName: p2
+      address: 1.2.3.5
+      port: 3306
+      active: true
+      msg: "some"
+    - podName: p3
+      address: 1.2.3.6
+      port: 3306
+      active: true
+      msg: "some"

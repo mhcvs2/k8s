@@ -1,0 +1,23 @@
+apiVersion: dragon.ksyun.com/v1alpha1
+kind: Backup
+metadata:
+  name: mysql-backup
+spec:
+  parent: sadf
+  executor: mysqldump/xtrabackup
+  storageProvider:
+    local:
+      path: /ks3nosplit
+  cluster:
+    name: mysql
+status:
+  remotePath: 111
+  gtid: 1234
+  timeStarted: sdaf
+  timeCompleted: dsf
+  Conditions:
+    - Type: Scheduled/Running/Complete/Failed
+      Status: True
+      LastTransitionTime: 1
+      Reason: sdf
+      Message: dsf

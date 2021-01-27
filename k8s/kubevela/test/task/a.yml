@@ -1,0 +1,13 @@
+apiVersion: core.oam.dev/v1alpha2
+kind: Application
+metadata:
+  name: t1
+spec:
+  components:
+    - name: t1
+      type: task
+      settings:
+        image: rds.registry.ksyun.com/common/net-tools:latest
+        cmd:
+          - sleep
+          - '10'

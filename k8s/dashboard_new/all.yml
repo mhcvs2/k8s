@@ -24,7 +24,7 @@ metadata:
   namespace: kube-system
 
 ---
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kubernetes-dashboard2
@@ -48,9 +48,11 @@ spec:
     spec:
       containers:
       - name: kubernetes-dashboard
-        image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.8.3
-#        image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/kubernetes-dashboard-amd64:v1.8.3
+#        image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.8.3
+#        image: gcmirrors/kubernetes-dashboard-amd64:v1.8.3
+#        image: rds.registry.ksyun.com/common/kubernetes-dashboard-amd64:v1.8.3
 #        image: hub.kce.ksyun.com/kbdp/kubernetes-dashboard-amd64:v1.8.3
+        image: kubernetesui/dashboard:v2.0.0-rc7
         resources:
           requests:
             cpu: 100m
@@ -60,6 +62,7 @@ spec:
           protocol: TCP
         args:
           - --auto-generate-certificates
+          - --namespace=kube-system
         volumeMounts:
         - name: kubernetes-dashboard-certs
           mountPath: /certs
@@ -92,9 +95,31 @@ kind: Secret
 metadata:
   labels:
     k8s-app: kubernetes-dashboard
-    # Allows editing resource and makes sure it is created first.
-    addonmanager.kubernetes.io/mode: EnsureExists
   name: kubernetes-dashboard-certs
+  namespace: kube-system
+type: Opaque
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard-csrf
+  namespace: kube-system
+type: Opaque
+data:
+  csrf: ""
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard-key-holder
   namespace: kube-system
 type: Opaque
 ---

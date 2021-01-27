@@ -13,12 +13,12 @@ spec:
         app: fio-test-ssd-2
     spec:
       containers:
-      - image: registry.bst-1.cns.bstjpc.com:5000/clusterhq/fio-tool:latest
+      - image: rds.registry.ksyun.com/common/net-tools:latest
         name: fio
         command:
-        - bash
-        - -c
-        - "while true; do sleep 10; done"
+          - tail
+          - -f
+          - /dev/null
         volumeMounts:
         - name: fio-test-pv
           mountPath: /data

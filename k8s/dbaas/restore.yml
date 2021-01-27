@@ -1,0 +1,18 @@
+apiVersion: mysql.oracle.com/v1alpha1
+kind: Restore
+metadata:
+  name: mysql-restore
+spec:
+  cluster:
+    name: mysql
+  backup:
+    name: mysql-backup
+status:
+  timeStarted: sdaf
+  timeCompleted: dsf
+  Conditions:
+    - Type: Scheduled/Running/Complete/Failed
+      Status: True
+      LastTransitionTime: 1
+      Reason: sdf
+      Message: dsf

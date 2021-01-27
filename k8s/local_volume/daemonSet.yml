@@ -1,8 +1,8 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: local-volume-provisioner
-  namespace: default
+  namespace: kube-admin
   labels:
     app: local-volume-provisioner
 spec:
@@ -14,9 +14,9 @@ spec:
       labels:
         app: local-volume-provisioner
     spec:
-      serviceAccountName: local-storage-admin
+      serviceAccountName: default
       containers:
-        - image: "registry.bst-1.cns.bstjpc.com:5000/quay.io/external_storage/local-volume-provisioner:v2.1.0"
+        - image: "hub.kce.ksyun.com/krds-common/local-volume-provisioner:v2.1.0"
           imagePullPolicy: "Always"
           name: provisioner
           securityContext:
@@ -26,17 +26,11 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: spec.nodeName
-          - name: MY_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: JOB_CONTAINER_IMAGE
-            value: "registry.bst-1.cns.bstjpc.com:5000/quay.io/external_storage/local-volume-provisioner:v2.1.0"
           volumeMounts:
             - mountPath: /etc/provisioner/config
               name: provisioner-config
               readOnly: true
-            - mountPath:  /ssd
+            - mountPath:  /mnt/fast-disks
               name: fast-disks
               mountPropagation: "HostToContainer"
       volumes:
@@ -45,4 +39,4 @@ spec:
             name: local-provisioner-config
         - name: fast-disks
           hostPath:
-            path: /ssd
+            path: /mnt/fast-disks

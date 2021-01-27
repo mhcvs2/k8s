@@ -1,11 +1,14 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: default-http-backend
   labels:
     k8s-app: default-http-backend
-  namespace: kube-system
+  namespace: kube-admin
 spec:
+  selector:
+    matchLabels:
+      k8s-app: default-http-backend
   replicas: 1
   template:
     metadata:
@@ -13,12 +16,12 @@ spec:
         k8s-app: default-http-backend
     spec:
       terminationGracePeriodSeconds: 60
-      imagePullSecrets:
-        - name: ksyunregistrykey
+#      imagePullSecrets:
+#        - name: ksyunregistrykey
       containers:
       - name: default-http-backend
 #        image: registry.bst-1.cns.bstjpc.com:5000/gcr.io/google_containers/defaultbackend:1.0
-        image: hub.kce.ksyun.com/kbdp/defaultbackend:1.0
+        image: gcmirrors/defaultbackend:1.0
         livenessProbe:
           httpGet:
             path: /healthz
@@ -40,7 +43,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: default-http-backend
-  namespace: kube-system
+  namespace: kube-admin
   labels:
     k8s-app: default-http-backend
 spec:

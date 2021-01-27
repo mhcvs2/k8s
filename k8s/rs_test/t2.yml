@@ -1,13 +1,14 @@
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
 metadata:
   name: fio-test
   labels:
     app: fio-test
 spec:
-  replicas: 2
-  strategy:
-    type: Recreate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fio-test
   template:
     metadata:
       labels:

@@ -1,0 +1,6 @@
+apiVersion: dragon.ksyun.com/v1alpha1
+kind: Datastore
+metadata:
+  name: mysql
+spec:
+  default-version: mysql-5.7

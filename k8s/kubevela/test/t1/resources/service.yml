@@ -1,0 +1,25 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: testsvc-route-c4575497d
+  namespace: default
+  labels:
+    app.oam.dev/component: testsvc
+    app.oam.dev/name: first-vela-app
+  ownerReferences:
+    - apiVersion: standard.oam.dev/v1alpha1
+      kind: Route
+      name: testsvc-route-c4575497d
+      uid: 87e118f7-a34d-4cc3-bc9e-9aa1626d5306
+      controller: true
+      blockOwnerDeletion: true
+spec:
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  selector:
+    app.oam.dev/component: testsvc
+  clusterIP: 10.254.44.127
+  type: ClusterIP
+  sessionAffinity: None

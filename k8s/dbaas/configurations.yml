@@ -1,0 +1,24 @@
+apiVersion: dragon.ksyun.com/v1alpha1
+kind: Configuration
+metadata:
+  name: d381cbab-eae4-4293-814c-08ba94d7a11c
+  namespace: tenant-id
+  label:
+    datastore-version: mysql-5.7
+  ownerReferences:
+  - apiVersion: dragon.ksyun.com/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: DatastoreVersion
+    name: mysql-5.7
+    uid: 4b81e76c-b26d-11e8-b891-fa163eebca40
+spec:
+  type: 0/1
+  description: "some"
+  parameters:
+    k1: v1
+    k2: v2
+status:
+  configmap:
+    namespace: ns1
+    name: cm1

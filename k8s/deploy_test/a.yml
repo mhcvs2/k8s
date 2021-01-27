@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: deploy-test
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        task: test
+    spec:
+      containers:
+      - name: deploy-test
+        image: rds.registry.ksyun.com/common/net-tools:latest
+        command:
+          - tail
+          - -f
+          - /dev/null
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 1000Mi
+          limits:
+            cpu: 2000m
+            memory: 1000Mi

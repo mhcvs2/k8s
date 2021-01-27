@@ -1,0 +1,34 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: testsvc-route-c4575497d-auto-created
+  namespace: default
+  labels:
+    app.oam.dev/component: testsvc
+    app.oam.dev/name: first-vela-app
+    app.oam.dev/resourceType: TRAIT
+    app.oam.dev/revision: testsvc-v1
+    application.oam.dev: first-vela-app
+    trait.oam.dev/type: route
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  ownerReferences:
+    - apiVersion: standard.oam.dev/v1alpha1
+      kind: Route
+      name: testsvc-route-c4575497d
+      uid: 87e118f7-a34d-4cc3-bc9e-9aa1626d5306
+      controller: true
+      blockOwnerDeletion: true
+spec:
+  rules:
+    - host: testsvc.example.com
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            backend:
+              serviceName: testsvc-route-c4575497d
+              servicePort: 8000
+status:
+  loadBalancer:
+    ingress:
+      - ip: 10.254.153.181

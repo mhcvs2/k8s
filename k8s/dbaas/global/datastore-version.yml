@@ -1,0 +1,21 @@
+apiVersion: dragon.ksyun.com/v1alpha1
+kind: DatastoreVersion
+metadata:
+  name: mysql-5.7
+  label:
+    datastore: mysql
+    active: true
+  ownerReferences:
+  - apiVersion: dragon.ksyun.com/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Datastore
+    name: mysql
+    uid: 4b81e76c-b26d-11e8-b891-fa163eebca41
+spec:
+  default-configuration: d381cbab-eae4-4293-814c-08ba94d7a11c
+  manager: mysql
+  version: 5.7
+  image:
+    db: mysql:5.7
+    agent: dragon-agent:v0.1

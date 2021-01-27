@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: test-statefulset
+spec:
+  selector:
+    matchLabels:
+      app: test-statefulset
+  serviceName: "test-statefulset"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: test-statefulset
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - image: rds.registry.ksyun.com/common/net-tools:latest
+        name: t1
+        command:
+          - tail
+          - -f
+          - /dev/null
