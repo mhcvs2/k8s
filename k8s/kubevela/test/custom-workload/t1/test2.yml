@@ -1,0 +1,4 @@
+name: t11
+mhctask:
+  t11:
+    image: rds.registry.ksyun.com/common/net-tools:latest
